@@ -56,6 +56,8 @@ upload_max_filesize = 10M
 post_max_size = 10M
 ```
 
+6. Edit config.php and adjust settings to your needs
+
 ## Known issues
 
 * GD Enhancer won't work with modern PHP so you'll not be able to upload animated GIF images until it's replaced with something else.
