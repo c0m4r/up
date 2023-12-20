@@ -83,6 +83,7 @@ This setup is based on [joseluisq/alpine-php-fpm](https://github.com/joseluisq/a
 ```bash
 git clone https://github.com/c0m4r/up.git
 cd up
+#mv .docker/docker-compose.ipv6.yml docker-compose.yml # for IPv6-only
 docker compose up -d
 docker compose exec server sh -c "cd /usr/share/nginx/html && curl -o composer.phar https://getcomposer.org/download/latest-stable/composer.phar"
 docker compose exec php-fpm sh -c "cd /usr/share/nginx/html && php composer.phar update"
