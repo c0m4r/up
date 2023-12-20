@@ -23,7 +23,7 @@ Image Uploader
 
 1. PHP: Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
 
-Example for Alpine Linux:
+Example for the Alpine Linux:
 
 ```
 apk add php83-ctype php83-gd php83-iconv php83-mbstring php83-openssl php83-phar
@@ -35,7 +35,7 @@ apk add php83-ctype php83-gd php83-iconv php83-mbstring php83-openssl php83-phar
 php composer.phar update
 ```
 
-3. HTTP Server or PHP-FPM must have write access to `i` and `logs`.
+3. HTTP Server or PHP-FPM must have write access to the `i` and `logs`.
 
 Example for nginx:
 
@@ -49,15 +49,16 @@ chown nginx: i logs
 client_max_body_size 10M;
 ```
 
-5. PHP: Set `upload_max_filesize` and  `post_max_size`
+5. PHP: Set the `upload_max_filesize` and  `post_max_size`
 
 ```
 upload_max_filesize = 10M
 post_max_size = 10M
 ```
 
-6. Edit config.php and adjust settings to your needs
+6. Edit config.php and adjust the settings to your needs.
 
 ## Known issues
 
 * GD Enhancer won't work with modern PHP so you'll not be able to upload animated GIF images until it's replaced with something else.
+* Animated WebP is not support at this point
