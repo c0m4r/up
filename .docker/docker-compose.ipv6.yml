@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  server:
+    image: nginx:mainline-alpine
+    ports:
+      - 8080:80
+    volumes:
+      - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - .:/usr/share/nginx/html/
+    depends_on:
+      - php-fpm
+    links:
+      - php-fpm
+    networks:
+      net6:
+        ipv6_address: fd00:fd00:ffff::10
+    dns: fd00:fd00:ffff::1
+  php-fpm:
+    image: joseluisq/php-fpm:8.2
+    environment:
+      - "ENV_SUBSTITUTION_ENABLE=true"
+      - "PHP_MEMORY_LIMIT=128M"
+      - "PHP_FPM_LISTEN=9090"
+      - "PHP_SESSION_GC_MAXLIFETIME=1440"
+    expose:
+      - "9090"
+    volumes:
+      - .:/usr/share/nginx/html/
+    networks:
+      net6:
+        ipv6_address: fd00:fd00:ffff::20
+    dns: fd00:fd00:ffff::1
+networks:
+  net6:
+    enable_ipv6: true
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: fd00:fd00:ffff::/64
+          gateway: fd00:fd00:ffff::1
