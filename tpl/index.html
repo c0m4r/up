@@ -26,7 +26,7 @@
 		
 			<div>
 				<input type="hidden" name="MAX_FILE_SIZE" value="{{max_size}}" />
-				<input type="file" name="ICAfYf6c7fTuyIxV2PBX" id="ICAfYf6c7fTuyIxV2PBX" class="flyhigh" onchange="return fileSelected();"/>
+				<input type="file" name="{{ config.input_filename }}" id="{{ config.input_filename }}" class="flyhigh" onchange="return fileSelected();"/>
 			</div>
 			
 			<noscript><p>{{lang.wlacz_javascript}}</p></noscript>
@@ -88,7 +88,7 @@
 	
 		function fileSelected()
 		{
-			var file = document.getElementById('ICAfYf6c7fTuyIxV2PBX').files[0];
+			var file = document.getElementById('{{ config.input_filename }}').files[0];
 			
 			if (file)
 			{
@@ -122,7 +122,7 @@
 		function uploadFile()
 		{
 			var fd = new FormData();
-			fd.append("ICAfYf6c7fTuyIxV2PBX", document.getElementById('ICAfYf6c7fTuyIxV2PBX').files[0]);
+			fd.append("{{ config.input_filename }}", document.getElementById('{{ config.input_filename }}').files[0]);
 			var xhr = new XMLHttpRequest();
 			xhr.upload.addEventListener("progress", uploadProgress, false);
 			xhr.addEventListener("load", uploadComplete, false);
@@ -182,7 +182,7 @@
 			}
 			else if(callback[0] != "{")
 			{
-				$(".info").text("Fatalny błąd.");
+				$(".info").text("error");
 				$("#progressNumber").text("");
 				$("progress").val("0");
 				$(".results").hide();
