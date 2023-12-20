@@ -1,6 +1,7 @@
 <?php
 
 use gdenhancer\GDEnhancer;
+require("config.php");
 require("lang.php");
 
 // Global variables
