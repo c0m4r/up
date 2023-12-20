@@ -78,6 +78,8 @@ post_max_size = 10M
 
 Check `docker-composer.yml` and `.docker/nginx` configs and adjust to your needs.
 
+This setup is based on [joseluisq/alpine-php-fpm](https://github.com/joseluisq/alpine-php-fpm)
+
 ```
 git clone https://github.com/c0m4r/up.git
 cd up
