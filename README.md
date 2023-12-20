@@ -25,9 +25,8 @@ Lets you upload multiple images in a row and see them all in one view. Generates
 
 1. PHP: Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
 
-Example for the Alpine Linux:
-
 ```
+# example for alpine linux
 apk add php83-ctype php83-gd php83-iconv php83-mbstring php83-openssl php83-phar
 ```
 
@@ -39,10 +38,8 @@ php composer.phar update
 
 3. HTTP Server or PHP-FPM must have write access to the `i` and `logs`.
 
-Example for nginx:
-
 ```
-chown nginx: i logs
+chown nginx:nginx i logs
 ```
 
 4. Nginx: change [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)
@@ -58,7 +55,39 @@ upload_max_filesize = 10M
 post_max_size = 10M
 ```
 
-6. Edit config.php and adjust the settings to your needs.
+6. Disallow access to dot files, logs in the web server configuration.
+
+```
+    # example for nginx
+
+    # Deny access to dot files by default
+    location ~ /\. {
+        log_not_found off;
+        deny all;
+    }
+
+    location ~ (composer|docker-compose|vendor|logs|CHANGELOG|LICENSE) {
+      	log_not_found off;
+        deny all;
+    }
+```
+
+7. Edit config.php and adjust the settings to your needs.
+
+## Docker
+
+Check `docker-composer.yml` and `.docker/nginx` configs and adjust to your needs.
+
+```
+git clone https://github.com/c0m4r/up.git
+cd up
+docker compose up -d
+chown -R 82:82 i logs
+```
+
+Change uid:gid depending on your setup so the PHP-FPM have write access to the `i` and `logs`.
+
+By default the web server (nginx) listens on 8080.
 
 ## Known issues
 
