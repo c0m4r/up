@@ -34,7 +34,7 @@ else
 		
 		$up = new stdClass();
 		
-		$up->url = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].preg_replace($_SERVER['REQUEST_URI'], "/upload.php/", "").'/'.$upload_dir.'/'; // output file url prefix
+		$up->url = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].preg_replace("/upload\.php/", "", $_SERVER["REQUEST_URI"]).$upload_dir.'/'; // output file url prefix
 		$up->tmp = $_FILES[$name]['tmp_name'];
 		$up->name = $_FILES[$name]['name']; 
 		$up->type = $_FILES[$name]['type'];
