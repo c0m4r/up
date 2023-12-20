@@ -5,10 +5,10 @@ require("lang.php");
 
 // Global variables
 
-$name = "ICAfYf6c7fTuyIxV2PBX"; // name of input file
-$max_size = "10485760"; // max filesize
-$upload_dir = "i"; // upload dir
-$max_files = 2000; // max number of files stored
+$name = $config["input_filename"]; // name of input file
+$max_size = $config["max_filesize"]; // max filesize
+$upload_dir = $config["upload_dir"]; // upload dir
+$max_files = $config["files_limit"]; // max number of files stored
 $files_count = count(glob("$upload_dir/*.*"));
 
 $domeny = array
