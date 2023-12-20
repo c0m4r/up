@@ -55,7 +55,7 @@ upload_max_filesize = 10M
 post_max_size = 10M
 ```
 
-6. Disallow access to dot files, logs in the web server configuration.
+6. Disallow access to dot files, logs and other unnecessary files in the web server configuration.
 
 ```
     # example for nginx
@@ -66,7 +66,7 @@ post_max_size = 10M
         deny all;
     }
 
-    location ~ (composer|docker-compose|vendor|logs|CHANGELOG|LICENSE) {
+    location ~ (composer|docker-compose|logs|CHANGELOG|LICENSE) {
       	log_not_found off;
         deny all;
     }
