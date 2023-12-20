@@ -84,7 +84,8 @@ This setup is based on [joseluisq/alpine-php-fpm](https://github.com/joseluisq/a
 git clone https://github.com/c0m4r/up.git
 cd up
 docker compose up -d
-docker compose exec php-fpm sh -c "cd /usr/share/nginx/html && wget https://getcomposer.org/download/latest-stable/composer.phar && php composer.phar update"
+docker compose exec server sh -c "cd /usr/share/nginx/html && curl -o composer.phar https://getcomposer.org/download/latest-stable/composer.phar"
+docker compose exec php-fpm sh -c "cd /usr/share/nginx/html && php composer.phar update"
 chown -R 82:82 i logs
 ```
 
