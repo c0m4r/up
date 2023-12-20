@@ -4,7 +4,7 @@ Image Uploader
 
 ## Installation
 
-1. PHP: Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl, `phar`
+1. PHP: Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
 
 Example for alpine:
 
