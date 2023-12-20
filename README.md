@@ -6,7 +6,7 @@ Image Uploader
 
 1. PHP: Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
 
-Example for alpine:
+Example for Alpine Linux:
 
 ```
 apk add php83-ctype php83-gd php83-iconv php83-mbstring php83-openssl php83-phar
