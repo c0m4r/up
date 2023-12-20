@@ -52,7 +52,8 @@ else
 			"image/jpeg",
 			"image/pjpeg",
 			"image/x-png",
-			"image/png"
+			"image/png",
+			"image/webp"
 		);
 		
 		// Image validation
@@ -136,6 +137,11 @@ else
 				imagealphablending($img, false);
 				imagesavealpha($img, true);
 			}
+			elseif(in_array($up->type,array("image/webp")))
+			{
+				$filetype = 'webp';
+				$img = imagecreatefromwebp($up->tmp);
+			}
 			else
 			{
 				$filetype = false;
@@ -154,6 +160,7 @@ else
 					case "ani.gif": file_put_contents("$upload_dir/$up->image", $save['contents']); break;
 					case "jpg": imagejpeg($img, "$upload_dir/$up->image"); break;
 					case "png": imagepng($img, "$upload_dir/$up->image"); break;
+					case "webp": imagewebp($img, "$upload_dir/$up->image"); break;
 				}
 				
 				if(getimagesize("$upload_dir/$up->image"))
