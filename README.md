@@ -1,6 +1,8 @@
 # up
 
-Image Uploader
+An image uploader. Written in PHP, supports popular formats: png, jpeg, gif, webp.
+
+Lets you upload multiple images in a row and see them all in one view. Generates embed codes and a permalink. No bullshit steps along the way.
 
 ![image](https://github.com/c0m4r/up/assets/6292788/87c11a21-3d22-433f-b88d-1bf661555b28)
 
