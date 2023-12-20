@@ -36,6 +36,13 @@ php composer.phar update
 ```
 
 3. HTTP Server or PHP-FPM must have write access to `i` and `logs`.
+
+Example for nginx:
+
+```
+chown nginx: i logs
+```
+
 4. Nginx: change [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)
 
 ```
