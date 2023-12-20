@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="pl">
+<head>
+	<title>Image Uploader</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />	
+	<link href="css/style.css" rel="stylesheet" media="screen" type="text/css" />	
+</head>
+<body style="display:none;">
+	
+	<div class="panel">
+		
+		<div class="header">Image Uploader</div>
+		<div class="quota">{{lang.zajete_miejsce}}: {{counter.procent}}%</div>
+		
+		<br class="clear" />
+		
+	</div>
+	
+	<div class="main">
+	
+		<div class="image"></div>
+	
+		<h2>{{lang.wgrywaj_screeny}}</h2>
+		
+		<form id="form1" enctype="multipart/form-data" method="post" action="./">
+		
+			<div>
+				<input type="hidden" name="MAX_FILE_SIZE" value="{{max_size}}" />
+				<input type="file" name="ICAfYf6c7fTuyIxV2PBX" id="ICAfYf6c7fTuyIxV2PBX" class="flyhigh" onchange="return fileSelected();"/>
+			</div>
+			
+			<noscript><p>{{lang.wlacz_javascript}}</p></noscript>
+			
+			<div class="results">
+				<p class="ctrl"></p>
+				<textarea class="result" onclick="select()"></textarea>
+				<br />
+				<textarea class="result_html" onclick="select()"></textarea>
+				<textarea class="result_forum" onclick="select()"></textarea>
+			</div>
+			
+			<p><progress value="0" max="100"></progress> <span id="progressNumber"></span></p>
+
+			<div class="info" id="fileInfo"></div>
+			
+		</form>
+		
+		<p class="note">{{lang.wybierz_plik}}</p>
+
+		<br />
+
+		<ul id="features">
+			<li class="mb">10 MB</li>
+			<li class="png">PNG</li>
+			<li class="jpeg">JPEG</li>
+			<li class="gif">GIF</li>
+			<li class="ani">Ani. GIF</li>
+		</ul>
+		
+		<br />
+		
+		<div style="color:#999;max-width:880px;margin:0 auto;">
+
+		    <p id="regulamin">{{ lang.regulamin_tekst }}</p> 
+		    <p id="prywatnosc">{{ lang.polityka_prywatnosci_tekst }}</p>
+		    <p id="kontakt">{{ lang.kontakt_tekst }}</p>
+
+		    <p>[ <a href="#" onclick="$('#regulamin').slideToggle();return false;">{{ lang.regulamin }}</a> 
+		    | <a href="#" onclick="$('#prywatnosc').slideToggle();return false;">{{ lang.polityka_prywatnosci }}</a> 
+		    | <a href="#" onclick="$('#kontakt').slideToggle();return false;">{{ lang.kontakt }}</a> ]</p>
+
+		</div>
+	
+	</div>
+	
+	<div class="last">
+	
+	</div>
+	
+	<!-- Z krypty -->
+	
+	<script type="text/javascript" src="vendor/components/jquery/jquery.min.js"></script>
+	
+	<script type="text/javascript">
+
+		$("body").show();
+	
+		function fileSelected()
+		{
+			var file = document.getElementById('ICAfYf6c7fTuyIxV2PBX').files[0];
+			
+			if (file)
+			{
+				var fileSize = 0;
+				
+				if (file.size > 1024 * 1024)
+				{
+					fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+				}
+				else
+				{
+					fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+				}
+
+				if(file.size <= {{max_size}})
+				{
+					document.getElementById('fileInfo').innerHTML = file.name + ' (<span id="filesize">' + fileSize + '</span>)';
+					uploadFile();
+				}
+				else if(file.size > {{max_size}})
+				{
+					$(".info").text("{{lang.plik_zbyt_duzy}}");
+					$("#progressNumber").text("");
+					$("progress").val("0");
+					$(".results").hide();
+					return false;
+				}
+			}
+		}
+
+		function uploadFile()
+		{
+			var fd = new FormData();
+			fd.append("ICAfYf6c7fTuyIxV2PBX", document.getElementById('ICAfYf6c7fTuyIxV2PBX').files[0]);
+			var xhr = new XMLHttpRequest();
+			xhr.upload.addEventListener("progress", uploadProgress, false);
+			xhr.addEventListener("load", uploadComplete, false);
+			xhr.addEventListener("error", uploadFailed, false);
+			xhr.addEventListener("abort", uploadCanceled, false);
+			xhr.open("POST", "upload.php");
+			xhr.send(fd);
+		}
+
+		function uploadProgress(evt)
+		{
+			if (evt.lengthComputable)
+			{
+				var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+				document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
+				$("progress").val(percentComplete.toString());
+			}
+			else
+			{
+				document.getElementById('progressNumber').innerHTML = '{{lang.blad_odczytu_postepu}}';
+			}
+		}
+
+		function uploadComplete(evt)
+		{
+			var callback = evt.target.responseText;
+			
+			if(callback[0] == "{")
+			{
+				var callback = jQuery.parseJSON(callback);
+				
+				if(callback.error)
+				{
+					$(".info").text(callback.error);
+					$("#progressNumber").text("");
+					$("progress").val("0");
+					$(".results").hide();
+				}
+				else if(callback.msg)
+				{
+					if($(".image").html())
+					{
+						$(".image a").prependTo(".last");
+					}
+					
+					$(".results").slideUp().slideToggle();
+					$(".result").text(callback.msg).show();
+					$(".result_html").text('<a href="' + callback.msg + '"><img src="' + callback.msg + '" alt="" /></a>').show();
+					$(".result_forum").text('[IMG]' + callback.msg + '[/IMG]').show();
+					$("textarea").select();
+					$(".result").select();
+					$(".image a").remove();
+					$(".image").append('<a href="' + callback.msg + '" target="_blank"><img src="' + callback.msg + '" alt="" /></a>');
+					$("progress").val("100");
+					$("#progressNumber").text("100%");
+				}
+			}
+			else if(callback[0] != "{")
+			{
+				$(".info").text("Fatalny błąd.");
+				$("#progressNumber").text("");
+				$("progress").val("0");
+				$(".results").hide();
+			}
+		}
+
+		function uploadFailed(evt)
+		{
+			alert("{{lang.blad_podczas_przesylania}}");
+		}
+
+		function uploadCanceled(evt)
+		{
+			alert("{{lang.wgrywanie_przerwane}}");
+		}
+		
+		$(".result").focus(function()
+		{
+			$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = URL");
+		});
+		
+		$(".result_html").focus(function()
+		{
+			$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = HTML");
+		});
+		
+		$(".result_forum").focus(function()
+		{
+			$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = FORUM");
+		});
+
+		$("#regulamin").slideToggle(0);
+		$("#prywatnosc").slideToggle(0);
+		$("#kontakt").slideToggle(0);
+
+	</script>
+	
+</body>
+</html>
