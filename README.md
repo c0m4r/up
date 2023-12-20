@@ -61,4 +61,4 @@ post_max_size = 10M
 ## Known issues
 
 * GD Enhancer won't work with modern PHP so you'll not be able to upload animated GIF images until it's replaced with something else.
-* Animated WebP is not support at this point
+* Animated WebP is not supported at this point
