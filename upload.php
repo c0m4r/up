@@ -1,6 +1,7 @@
 <?php
 
-use gdenhancer\GDEnhancer;
+require_once 'vendor/autoload.php';
+use Imagecraft\ImageBuilder;
 require("config.php");
 require("lang.php");
 
@@ -113,10 +114,15 @@ else
 
 				if ($count > 1)
 				{
-					include_once 'gdenhancer/GDEnhancer.php';
+					$options = ['engine' => 'php_gd', 'locale' => 'en'];
+					$builder = new ImageBuilder($options);
 
-					$image = new GDEnhancer($up->tmp);
-					$save = $image->save();
+					$image = $builder
+					    ->addBackgroundLayer()
+					        ->contents($filecontents)
+					        ->done()
+					    ->save()
+					;
 
 					$filetype = 'ani.gif';
 				}
