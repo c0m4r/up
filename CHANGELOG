@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Docker IPv6 configuration
+- Imagecraft dependency
+
+### Changed
+
+- GDEnhancer has been replaced with Imagecraft
+
+### Fixed
+
+- Animated GIF support
+- HTTP_ACCEPT_LANGUAGE validation
+
+### Removed
+
+- GDEnhancer dependency
 
 ## [1.2.0] - 2023-12-20
 
