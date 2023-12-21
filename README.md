@@ -25,12 +25,6 @@ Uploaded image is verified and re-created from its contents to provide some laye
 ## Installation
 
 1. PHP: Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
-
-```
-# example for alpine linux
-apk add php83-ctype php83-gd php83-iconv php83-mbstring php83-openssl php83-phar
-```
-
 2. [Install Composer](https://getcomposer.org/download/) and update its dependencies:
 
 ```bash
@@ -38,18 +32,13 @@ php composer.phar update
 ```
 
 3. HTTP Server or PHP-FPM must have write access to the `i` and `logs`.
-
-```bash
-chown nginx:nginx i logs
-```
-
 4. Nginx: change [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)
 
 ```
 client_max_body_size 10M;
 ```
 
-5. PHP: Set the `upload_max_filesize` and  `post_max_size`
+5. PHP: Increase the `upload_max_filesize` and  `post_max_size`:
 
 ```
 upload_max_filesize = 10M
