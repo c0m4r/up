@@ -1,6 +1,7 @@
 {
     "require": {
         "twig/twig": "^3.8",
-        "components/jquery": "^3.7"
+        "components/jquery": "^3.7",
+        "coldume/imagecraft": "^1.0"
     }
 }
