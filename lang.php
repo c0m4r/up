@@ -2,11 +2,13 @@
 
 // Lang
 
-$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-
-if(isset($_GET["lang"]))
+if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 {
-	$lang = "en";
+	$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+}
+else
+{
+	$lang = 'en';
 }
 
 switch($lang)
@@ -20,4 +22,4 @@ switch($lang)
 		require("lang/en.php"); break;
 }
 
-// qńec
+?>
