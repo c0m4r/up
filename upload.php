@@ -175,6 +175,17 @@ else
 					// Zapis do logu
 					
 					$ip = $_SERVER["REMOTE_ADDR"];
+
+					// For reverse proxy
+
+					if(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+					{
+						if(filter_var($_SERVER["HTTP_X_FORWARDED_FOR"], FILTER_VALIDATE_IP))
+						{
+							$ip = $ip . "(" .$_SERVER["HTTP_X_FORWARDED_FOR"]. ")";
+						}
+					}
+					
 					$czas = date("Y-m-d H:i:s");
 					
 					$fp = fopen('logs/uploads.log', 'a');
