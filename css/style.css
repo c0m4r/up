@@ -201,6 +201,13 @@ img
 			text-shadow:1px 1px 1px #fff;
 		}
 
+	.rules
+	{
+		color:#999;
+		max-width:880px;
+		margin:0 auto;
+	}
+
 .last
 {
 	position:fixed;
