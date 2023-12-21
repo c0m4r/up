@@ -10,7 +10,10 @@ if(!is_writable($config["logs_dir"])) die("up error: logs dir is not writeable, 
 
 header ("Content-Type: text/html; charset=utf-8");
 
-require_once 'vendor/autoload.php';
+if(is_file('vendor/autoload.php'))
+    require_once 'vendor/autoload.php';
+else
+    die('error: composer is not installed');
 
 $loader = new \Twig\Loader\FilesystemLoader('tpl');
 $twig = new \Twig\Environment($loader);
