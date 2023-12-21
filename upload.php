@@ -164,7 +164,7 @@ else
 				switch($filetype)
 				{
 					case "gif": imagegif($img, "$upload_dir/$up->image"); break;
-					case "ani.gif": file_put_contents("$upload_dir/$up->image", $save['contents']); break;
+					case "ani.gif": file_put_contents("$upload_dir/$up->image", $image->getContents()); break;
 					case "jpg": imagejpeg($img, "$upload_dir/$up->image"); break;
 					case "png": imagepng($img, "$upload_dir/$up->image"); break;
 					case "webp": imagewebp($img, "$upload_dir/$up->image"); break;
