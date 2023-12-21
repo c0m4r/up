@@ -4,6 +4,8 @@ An image uploader. Written in PHP, supports popular formats: png, jpeg, gif, web
 
 Lets you upload multiple images in a row and see them all in one view. Generates embed codes and a permalink. No bullshit steps along the way.
 
+Images are being verified and re-created from the content to provide some layer of security against exploits.
+
 ![image](https://github.com/c0m4r/up/assets/6292788/3cfa5183-c7db-44be-b9c3-e18ef564252d)
 
 ## Deps
@@ -12,13 +14,12 @@ Lets you upload multiple images in a row and see them all in one view. Generates
 * [Composer](https://getcomposer.org/)
 * [jQuery](https://jquery.com/)
 * [Twig](https://twig.symfony.com/)
-* [GD Enhancer by Coldume](https://github.com/coldume/gd-enhancer)
+* [Imagecraft by Coldume](https://github.com/coldume/imagecraft)
 * [KEYS.css by Michael Hüneburg](https://github.com/michaelhue/keyscss)
 
 ## License
 
 * Image Uploader (up) - [MIT](https://opensource.org/license/mit/)
-* GD Enhancer - [GNU GPL v3](https://opensource.org/license/gpl-3-0/)
 * KEYS.css - [MIT](https://opensource.org/license/mit/)
 
 ## Installation
@@ -101,5 +102,4 @@ By default the web server (nginx) listens on 8080.
 ## Known issues
 
 * This code was not intended for public use, I did it for myself so if you want to use it you better know what you're doing as securing and fixing it is on your side
-* GD Enhancer won't work with modern PHP so you'll not be able to upload animated GIF images until it's replaced with something else.
 * Animated WebP is not supported at this point
