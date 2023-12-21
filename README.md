@@ -93,7 +93,7 @@ chown -R 82:82 i logs
 Change uid:gid depending on your setup so the PHP-FPM have write access to the `i` and `logs`.
 
 ```bash
-curl http://localhost:8080 &> /dev/null && ps -eo pid,uid,gid,command,cgroup | grep docke[r] | grep php-fpm
+echo chown -R $(curl http://localhost:8080 &> /dev/null && ps -eo pid,uid,gid,command,cgroup | grep docke[r] | grep "php-fpm: pool www" | awk '{print $2":"$3}') i logs
 ```
 
 By default the web server (nginx) listens on 8080.
