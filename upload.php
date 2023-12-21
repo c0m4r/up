@@ -34,7 +34,7 @@ else
 		// Local variables
 		
 		$up = new stdClass();
-		
+
 		$up->url = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].preg_replace("/upload\.php/", "", $_SERVER["REQUEST_URI"]).$upload_dir.'/'; // output file url prefix
 		$up->tmp = $_FILES[$name]['tmp_name'];
 		$up->name = $_FILES[$name]['name']; 
@@ -42,9 +42,7 @@ else
 		
 		// Filesize
 		
-		$up->size = $_FILES[$name]['size']; 
-		$up->size = $up->size / (1024 * 1024);
-		$up->size = number_format($up->size, 2, ',', ' ');
+		$up->size = $_FILES[$name]['size'];
 		
 		// Supported file types
 		
@@ -177,10 +175,10 @@ else
 					// Zapis do logu
 					
 					$ip = $_SERVER["REMOTE_ADDR"];
-					$czas = date("H.i d-m-Y");
+					$czas = date("Y-m-d H:i:s");
 					
 					$fp = fopen('logs/uploads.log', 'a');
-					fwrite($fp, "IP: $ip Czas: $czas Plik: ".$up->image." Target: " . $up->url . $up->image . " Rozmiar: ".$up->size." MB\r\n");
+     					fwrite($fp, "[$czas] $ip ".$up->url.$up->image." ".$up->size."\r\n");
 					fclose($fp);
 				}
 				else
