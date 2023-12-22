@@ -32,6 +32,18 @@ $vars["counter"]["procent"] = round($files_count / $max_files * 100);
 $vars["lang"] = $lang;
 $vars["config"] = $config;
 
+// SRI Hash generator
+function sri($file) {
+	$f = fopen($file, "r");
+	$body = fread($f, filesize($file));
+	$hash = hash('sha384', $body, true);
+	return "sha384-".base64_encode($hash);
+}
+
+$vars["sri"]["stylecss"] = sri("css/style.css");
+$vars["sri"]["jqueryminjs"] = sri("vendor/components/jquery/jquery.min.js");
+$vars["sri"]["upjs"] = sri("js/up.js");
+
 echo $twig->render('index.html', $vars);
 
 ?>

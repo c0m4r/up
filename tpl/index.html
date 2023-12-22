@@ -5,7 +5,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="up - an image uploader">
-	<link href="css/style.css" rel="stylesheet" media="screen" type="text/css" />
+	<link href="css/style.css" rel="stylesheet" media="screen" type="text/css" integrity="{{ sri.stylecss }}" crossorigin="anonymous" />
 </head>
 <body>
 	
@@ -28,7 +28,7 @@
 		
 			<div>
 				<input type="hidden" name="MAX_FILE_SIZE" value="{{max_size}}" />
-				<input type="file" name="{{ config.input_filename }}" id="{{ config.input_filename }}" class="flyhigh" onchange="return fileSelected();"/>
+				<input type="file" name="up" id="up" class="flyhigh" onchange="return fileSelected();"/>
 			</div>
 			
 			<noscript><p>{{lang.wlacz_javascript}}</p></noscript>
@@ -80,147 +80,8 @@
 	
 	</div>
 	
-	<!-- Z krypty -->
-	
-	<script type="text/javascript" src="vendor/components/jquery/jquery.min.js"></script>
-	
-	<script type="text/javascript">
-
-		$("body").show();
-	
-		function fileSelected()
-		{
-			var file = document.getElementById('{{ config.input_filename }}').files[0];
-			
-			if (file)
-			{
-				var fileSize = 0;
-				
-				if (file.size > 1024 * 1024)
-				{
-					fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
-				}
-				else
-				{
-					fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
-				}
-
-				if(file.size <= {{max_size}})
-				{
-					document.getElementById('fileInfo').innerHTML = file.name + ' (<span id="filesize">' + fileSize + '</span>)';
-					uploadFile();
-				}
-				else if(file.size > {{max_size}})
-				{
-					$(".info").text("{{lang.plik_zbyt_duzy}}");
-					$("#progressNumber").text("");
-					$("progress").val("0");
-					$(".results").hide();
-					return false;
-				}
-			}
-		}
-
-		function uploadFile()
-		{
-			var fd = new FormData();
-			fd.append("{{ config.input_filename }}", document.getElementById('{{ config.input_filename }}').files[0]);
-			var xhr = new XMLHttpRequest();
-			xhr.upload.addEventListener("progress", uploadProgress, false);
-			xhr.addEventListener("load", uploadComplete, false);
-			xhr.addEventListener("error", uploadFailed, false);
-			xhr.addEventListener("abort", uploadCanceled, false);
-			xhr.open("POST", "upload.php");
-			xhr.send(fd);
-		}
-
-		function uploadProgress(evt)
-		{
-			if (evt.lengthComputable)
-			{
-				var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-				document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
-				$("progress").val(percentComplete.toString());
-			}
-			else
-			{
-				document.getElementById('progressNumber').innerHTML = '{{lang.blad_odczytu_postepu}}';
-			}
-		}
-
-		function uploadComplete(evt)
-		{
-			var callback = evt.target.responseText;
-			
-			if(callback[0] == "{")
-			{
-				var callback = jQuery.parseJSON(callback);
-				
-				if(callback.error)
-				{
-					$(".info").text(callback.error);
-					$("#progressNumber").text("");
-					$("progress").val("0");
-					$(".results").hide();
-				}
-				else if(callback.msg)
-				{
-					if($(".image").html())
-					{
-						$(".image a").prependTo(".last");
-					}
-					
-					$(".results").slideUp().slideToggle();
-					$(".result").text(callback.msg).show();
-					$(".result_html").text('<a href="' + callback.msg + '"><img src="' + callback.msg + '" alt="" /></a>').show();
-					$(".result_forum").text('[IMG]' + callback.msg + '[/IMG]').show();
-					$("textarea").select();
-					$(".result").select();
-					$(".image a").remove();
-					$(".image").append('<a href="' + callback.msg + '" target="_blank"><img src="' + callback.msg + '" alt="" /></a>');
-					$("progress").val("100");
-					$("#progressNumber").text("100%");
-				}
-			}
-			else if(callback[0] != "{")
-			{
-				$(".info").text("error");
-				$("#progressNumber").text("");
-				$("progress").val("0");
-				$(".results").hide();
-			}
-		}
-
-		function uploadFailed(evt)
-		{
-			alert("{{lang.blad_podczas_przesylania}}");
-		}
-
-		function uploadCanceled(evt)
-		{
-			alert("{{lang.wgrywanie_przerwane}}");
-		}
-		
-		$(".result").focus(function()
-		{
-			$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = URL");
-		});
-		
-		$(".result_html").focus(function()
-		{
-			$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = HTML");
-		});
-		
-		$(".result_forum").focus(function()
-		{
-			$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = FORUM");
-		});
-
-		$("#regulamin").slideToggle(0);
-		$("#prywatnosc").slideToggle(0);
-		$("#kontakt").slideToggle(0);
-
-	</script>
+	<script type="text/javascript" src="vendor/components/jquery/jquery.min.js" integrity="{{ sri.jqueryminjs }}" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="js/up.js" integrity="{{ sri.upjs }}" crossorigin="anonymous"></script>
 	
 </body>
 </html>

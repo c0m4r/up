@@ -7,7 +7,7 @@ require("lang.php");
 
 // Global variables
 
-$name 		= $config["input_filename"];
+$name 		= "up";
 $max_size 	= $config["max_filesize"];
 $upload_dir 	= $config["upload_dir"];
 $max_files 	= $config["files_limit"];
