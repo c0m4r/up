@@ -1,4 +1,9 @@
 {
+    "name": "c0m4r/up",
+    "description": "An image uploader for png, jpeg, gif and webp",
+    "type": "project",
+    "homepage": "https://github.com/c0m4r/up",
+    "license": "MIT",
     "require": {
         "twig/twig": "^3.8",
         "components/jquery": "^3.7",
