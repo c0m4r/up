@@ -7,21 +7,20 @@ require("lang.php");
 
 // Global variables
 
-$name = $config["input_filename"]; // name of input file
-$max_size = $config["max_filesize"]; // max filesize
-$upload_dir = $config["upload_dir"]; // upload dir
-$max_files = $config["files_limit"]; // max number of files stored
-$files_count = count(glob("$upload_dir/*.*"));
+$name 		= $config["input_filename"];
+$max_size 	= $config["max_filesize"];
+$upload_dir 	= $config["upload_dir"];
+$max_files 	= $config["files_limit"];
+$files_count 	= count(glob("$upload_dir/*.*"));
+$domeny 	= explode(",",$config["allowed_hosts"]);
 
-$domeny = array
-(
-	$_SERVER["HTTP_HOST"],
-	$_SERVER["SERVER_NAME"]
-);
-
-if(!in_array($_SERVER["SERVER_NAME"], $domeny) or !in_array($_SERVER["HTTP_HOST"], $domeny))
+if(!in_array($_SERVER["HTTP_HOST"], $domeny))
 {
-	die("Watch out, we got a badass over here.");
+	echo json_encode(array("error" => "host check error"));
+}
+elseif(!$_SERVER["REQUEST_URI"] == '/' and !preg_match('/^[A-Za-z0-9_\/$/',$_SERVER["REQUEST_URI"]))
+{
+	echo json_encode(array("error" => "bad request"));
 }
 else
 {
@@ -35,7 +34,35 @@ else
 		
 		$up = new stdClass();
 
-		$up->url = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].preg_replace("/upload\.php/", "", $_SERVER["REQUEST_URI"]).$upload_dir.'/'; // output file url prefix
+		// Reading protocol
+
+		if(isset($_SERVER["HTTP_X_FORWARDED_PROTO"]))
+		{
+			$up->proto = $_SERVER["HTTP_X_FORWARDED_PROTO"];
+		}
+		else
+		{
+			$up->proto = $_SERVER["REQUEST_SCHEME"];
+		}
+
+		// Validate protocol
+		
+		if(!in_array($up->proto, array("http", "https")))
+		{
+			$up->proto = "https";
+		}
+
+		// Validate HTTP_HOST and REQUEST_URI
+
+		$up->host = htmlspecialchars($_SERVER["HTTP_HOST"]);
+		$up->uri = htmlspecialchars($_SERVER["REQUEST_URI"]);
+
+		// Combine the URL
+		
+		$up->url = $up->proto.'://'.$up->host.preg_replace("/upload\.php/", "", $up->uri).$upload_dir.'/'; // output file url prefix
+
+		// Temporary file location
+		
 		$up->tmp = $_FILES[$name]['tmp_name'];
 		
 		// Filesize
