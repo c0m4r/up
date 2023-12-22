@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Meta tags: viewpoint and description
 - Added filtered HTTP_X_FORWARDED_FOR to be logged if behind reverse proxy
 
+### Security
+
+- Removed vulnerable method of mime type checking
+- Added two step mime type validation using finfo and exif_imagetype
+
 # [2.0.0] - 2023-12-21
 
 ### Added
