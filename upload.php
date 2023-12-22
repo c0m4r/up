@@ -37,8 +37,6 @@ else
 
 		$up->url = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].preg_replace("/upload\.php/", "", $_SERVER["REQUEST_URI"]).$upload_dir.'/'; // output file url prefix
 		$up->tmp = $_FILES[$name]['tmp_name'];
-		$up->name = $_FILES[$name]['name']; 
-		$up->type = $_FILES[$name]['type'];
 		
 		// Filesize
 		
@@ -55,6 +53,11 @@ else
 			"image/png",
 			"image/webp"
 		);
+
+		// Check mime type
+
+		$finfo = new finfo(FILEINFO_MIME_TYPE);
+		$up->type = $finfo->file($up->tmp);
 		
 		// Image validation
 		
@@ -74,7 +77,7 @@ else
 		{
 			// Extension
 			
-			if($up->type == "image/gif")
+			if($up->type == "image/gif" and exif_imagetype($up->tmp) == IMAGETYPE_GIF)
 			{
 				$filecontents = file_get_contents($up->tmp);
 
@@ -130,19 +133,19 @@ else
 					$img = imagecreatefromgif($up->tmp);
 				}
 			}
-			elseif(in_array($up->type,array("image/jpeg","image/pjpeg")))
+			elseif(in_array($up->type,array("image/jpeg","image/pjpeg")) and exif_imagetype($up->tmp) == IMAGETYPE_JPEG)
 			{
 				$filetype = 'jpg';
 				$img = imagecreatefromjpeg($up->tmp);
 			}
-			elseif(in_array($up->type,array("image/png","image/x-png")))
+			elseif(in_array($up->type,array("image/png","image/x-png")) and exif_imagetype($up->tmp) == IMAGETYPE_PNG)
 			{
 				$filetype = 'png';
 				$img = imagecreatefrompng($up->tmp);
 				imagealphablending($img, false);
 				imagesavealpha($img, true);
 			}
-			elseif(in_array($up->type,array("image/webp")))
+			elseif(in_array($up->type,array("image/webp")) and exif_imagetype($up->tmp) == IMAGETYPE_WEBP)
 			{
 				$filetype = 'webp';
 				$img = imagecreatefromwebp($up->tmp);
