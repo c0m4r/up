@@ -1,6 +1,7 @@
 <?php
 
 $config = array(
+        "allowed_hosts"		=> 'localhost', // comma-separated list of allowed HTTP_HOST
         "input_filename"        => 'RBZwvih2S1cLg4X25E0ZyylPbdGh97CA', // put something unique here, though I have no idea what this was for :D
         "upload_dir"            => 'i', // final image destination
         "logs_dir"              => 'logs', // where logs are stored
