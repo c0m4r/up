@@ -28,7 +28,7 @@ Uploaded image is verified and re-created from its contents to provide some laye
 
 1. [Install Composer](https://getcomposer.org/download/) and update its dependencies: `php composer.phar update`.
 2. Disallow access to dot files, logs and other unnecessary files in the web server configuration.
-3. Edit config.php and adjust the settings to your needs.
+3. Edit config.php, replace `allowed_hosts` with your domain and adjust the settings to your needs.
 
 ### Docker
 
