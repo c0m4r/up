@@ -9,7 +9,6 @@
         "components/jquery": "^3.7",
         "coldume/imagecraft": "^1.0",
         "ext-ctype": "*",
-        "ext-curl": "*",
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-gd": "*",
