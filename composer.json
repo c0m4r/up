@@ -7,6 +7,14 @@
     "require": {
         "twig/twig": "^3.8",
         "components/jquery": "^3.7",
-        "coldume/imagecraft": "^1.0"
+        "coldume/imagecraft": "^1.0",
+        "ext-ctype": "*",
+        "ext-curl": "*",
+        "ext-exif": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
+        "ext-iconv": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*"
     }
 }
