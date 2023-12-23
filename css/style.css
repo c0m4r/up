@@ -208,6 +208,11 @@ img
 		margin:0 auto;
 	}
 
+		.rules p
+		{
+			display:none;
+		}
+
 .last
 {
 	position:fixed;

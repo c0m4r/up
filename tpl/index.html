@@ -5,6 +5,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="up - an image uploader">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 	<link href="css/style.css" rel="stylesheet" media="screen" type="text/css" integrity="{{ sri.stylecss }}" crossorigin="anonymous" />
 </head>
 <body>
@@ -28,17 +29,17 @@
 		
 			<div>
 				<input type="hidden" name="MAX_FILE_SIZE" value="{{max_size}}" />
-				<input type="file" name="up" id="up" class="flyhigh" onchange="return fileSelected();"/>
+				<input type="file" name="up" id="up" class="flyhigh" />
 			</div>
 			
 			<noscript><p>{{lang.wlacz_javascript}}</p></noscript>
 			
 			<div class="results">
 				<p class="ctrl"></p>
-				<textarea class="result" onclick="select()"></textarea>
+				<textarea class="result"></textarea>
 				<br />
-				<textarea class="result_html" onclick="select()"></textarea>
-				<textarea class="result_forum" onclick="select()"></textarea>
+				<textarea class="result_html"></textarea>
+				<textarea class="result_forum"></textarea>
 			</div>
 			
 			<p><progress value="0" max="100"></progress> <span id="progressNumber"></span></p>
@@ -64,13 +65,13 @@
 		
 		<div class="rules">
 
-		    <p id="regulamin">{{ lang.regulamin_tekst }}</p> 
-		    <p id="prywatnosc">{{ lang.polityka_prywatnosci_tekst }}</p>
-		    <p id="kontakt">{{ lang.kontakt_tekst }}</p>
+		    <div>[ <a href="#" id="ts-a">{{ lang.regulamin }}</a> 
+		    | <a href="#" id="pp-a">{{ lang.polityka_prywatnosci }}</a> 
+		    | <a href="#" id="ct-a">{{ lang.kontakt }}</a> ]</div>
 
-		    <p>[ <a href="#" onclick="$('#regulamin').slideToggle();return false;">{{ lang.regulamin }}</a> 
-		    | <a href="#" onclick="$('#prywatnosc').slideToggle();return false;">{{ lang.polityka_prywatnosci }}</a> 
-		    | <a href="#" onclick="$('#kontakt').slideToggle();return false;">{{ lang.kontakt }}</a> ]</p>
+                    <p id="ts">{{ lang.regulamin_tekst }}</p>
+                    <p id="pp">{{ lang.polityka_prywatnosci_tekst }}</p>
+                    <p id="ct">{{ lang.kontakt_tekst }}</p>
 
 		</div>
 	

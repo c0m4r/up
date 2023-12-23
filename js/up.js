@@ -127,6 +127,14 @@ $(".result_forum").focus(function()
 	$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = FORUM");
 });
 
-$("#regulamin").slideToggle(0);
-$("#prywatnosc").slideToggle(0);
-$("#kontakt").slideToggle(0);
+$(".flyhigh").change(function() {
+	return fileSelected();
+});
+
+$("textarea").click(function() {
+	this.select();
+});
+
+$("#ts-a").click(function() { $("#ts").slideToggle(); return false; });
+$("#pp-a").click(function() { $("#pp").slideToggle(); return false; });
+$("#ct-a").click(function() { $("#ct").slideToggle(); return false; });
