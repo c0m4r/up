@@ -10,12 +10,7 @@ Uploaded image is verified and re-created from its contents to provide some laye
 
 ## Deps
 
-[PHP](https://www.php.net/) | [Composer](https://getcomposer.org/) | [jQuery](https://jquery.com/) | [Twig](https://twig.symfony.com/) | [Imagecraft](https://github.com/coldume/imagecraft) | [KEYS.css](https://github.com/michaelhue/keyscss)
-
-## License
-
-* Image Uploader (up) - MIT
-* KEYS.css - MIT
+[PHP](https://www.php.net/) | [Composer](https://getcomposer.org/) | [jQuery](https://jquery.com/) | [Twig](https://twig.symfony.com/) | [Imagecraft](https://github.com/coldume/imagecraft) | [KEYS.css by Michael Hüneburg](https://github.com/michaelhue/keyscss)
 
 ## Installation methods
 
