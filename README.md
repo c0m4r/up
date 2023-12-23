@@ -19,7 +19,7 @@ Uploaded image is verified and re-created from its contents to provide some laye
 ##### Requirements
 
 * PHP
-  * Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
+  * Enable modules: `ctype`, `exif`, `fileinfo`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
   * Increase the `upload_max_filesize` and  `post_max_size` to `10M`
 * Nginx: increase [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) to `10M`
 * HTTP Server or PHP-FPM must have write access to the `i` and `logs`.
