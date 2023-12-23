@@ -20,7 +20,6 @@ $twig = new \Twig\Environment($loader);
 
 $vars = array();
 
-$vars["ip"] = $_SERVER["REMOTE_ADDR"]; // client IP
 $vars["max_size"] = $config["max_filesize"]; // max file size
 
 $max_files = $config["files_limit"]; // max number of stored files
