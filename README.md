@@ -22,49 +22,25 @@ Uploaded image is verified and re-created from its contents to provide some laye
 * Image Uploader (up) - [MIT](https://opensource.org/license/mit/)
 * KEYS.css - [MIT](https://opensource.org/license/mit/)
 
-## Installation
+## Installation methods
 
-1. PHP: Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
-2. [Install Composer](https://getcomposer.org/download/) and update its dependencies:
+### Standalone
 
-```bash
-php composer.phar update
-```
+Requirements:
 
-3. HTTP Server or PHP-FPM must have write access to the `i` and `logs`.
-4. Nginx: change [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)
+* PHP
+  * Enable modules: `ctype`, `gd`, `iconv`, `mbstring`, `openssl` and `phar`.
+  * Increase the `upload_max_filesize` and  `post_max_size` to `10M`
+* Nginx: increase [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) to `10M`
+* HTTP Server or PHP-FPM must have write access to the `i` and `logs`.
 
-```
-client_max_body_size 10M;
-```
+Installation:
 
-5. PHP: Increase the `upload_max_filesize` and  `post_max_size`:
+1. [Install Composer](https://getcomposer.org/download/) and update its dependencies: `php composer.phar update`.
+2. Disallow access to dot files, logs and other unnecessary files in the web server configuration.
+3. Edit config.php and adjust the settings to your needs.
 
-```
-upload_max_filesize = 10M
-post_max_size = 10M
-```
-
-6. Disallow access to dot files, logs and other unnecessary files in the web server configuration.
-
-```
-    # example for nginx
-
-    # Deny access to dot files by default
-    location ~ /\. {
-        log_not_found off;
-        deny all;
-    }
-
-    location ~ (composer|docker-compose|logs|CHANGELOG|LICENSE) {
-      	log_not_found off;
-        deny all;
-    }
-```
-
-7. Edit config.php and adjust the settings to your needs.
-
-## Docker
+### Docker
 
 Check `docker-composer.yml` and `.docker/nginx` configs and adjust to your needs.
 
@@ -88,7 +64,7 @@ echo chown -R $(curl http://localhost:8080 &> /dev/null && ps -eo pid,uid,gid,co
 
 By default the web server (nginx) listens on 8080.
 
-## Known issues
+## Limitations
 
 * This code was not intended for public use, I did it for myself so if you want to use it you better know what you're doing as securing and fixing it is on your side
 * Animated WebP is not supported at this point
