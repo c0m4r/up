@@ -4,14 +4,11 @@
 
 Only latest release is supported. User have to upgrade to recieve any latest security updates.
 
-| Version   | Supported          |
-| --------- | ------------------ |
-| 2.1.2     | :white_check_mark: |
-| < 2.1.2   | :x:                |
+Check [Releases](https://github.com/c0m4r/up/releases) for the latest version.
 
 ## Reporting a Vulnerability
 
-Thank you for your intrest in more secure web!
+Thank you for your effort in more secure web. I am all about security and I will gladly use your help to imporve my code.
 
 Private vulnerability reporting is enabled in this repository. You can use Security tab to report.
 
