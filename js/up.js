@@ -18,7 +18,7 @@ function fileSelected()
 
 		if(file.size <= max_file_size)
 		{
-			document.getElementById('fileInfo').innerHTML = file.name + ' (<span id="filesize">' + fileSize + '</span>)';
+			document.getElementById('fileInfo').innerHTML = escapeHtml(file.name) + ' (<span id="filesize">' + escapeHtml(fileSize) + '</span>)';
 			uploadFile();
 		}
 		else if(file.size > max_file_size)
@@ -110,6 +110,18 @@ function uploadFailed(evt)
 function uploadCanceled(evt)
 {
 	alert("upload canceled");
+}
+
+function escapeHtml(text) {
+	var map = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#039;'
+	};
+
+	return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
 $(".result").focus(function()
