@@ -11,6 +11,10 @@ if(!is_writable($config["logs_dir"])) die("up error: logs dir is not writeable, 
 
 header ("Content-Type: text/html; charset=utf-8");
 
+// CSP header
+$nonce = bin2hex(openssl_random_pseudo_bytes(32));
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce';");
+
 if(is_file('vendor/autoload.php'))
     require_once 'vendor/autoload.php';
 else
