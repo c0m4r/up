@@ -1,6 +1,7 @@
 <?php
 
-// Image Uploader
+// up - an image uploader
+// https://github.com/c0m4r/up
 
 require("config.php");
 require("lang.php");
