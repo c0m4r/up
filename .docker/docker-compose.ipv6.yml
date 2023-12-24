@@ -23,6 +23,7 @@ services:
       - "PHP_MEMORY_LIMIT=128M"
       - "PHP_FPM_LISTEN=9090"
       - "PHP_SESSION_GC_MAXLIFETIME=1440"
+      - "PHP_EXPOSE_PHP=Off"
     expose:
       - "9090"
     volumes:
