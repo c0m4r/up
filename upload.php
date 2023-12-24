@@ -1,5 +1,8 @@
 <?php
 
+// up - an image uploader
+// https://github.com/c0m4r/up
+
 require_once 'vendor/autoload.php';
 use Imagecraft\ImageBuilder;
 require("config.php");
