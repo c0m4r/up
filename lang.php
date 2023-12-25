@@ -10,6 +10,8 @@ switch($lang)
 {
     case 'pl':
 	require("lang/pl.php"); break;
+    case 'ua':
+        require("lang/ua.php"); break;
     default:
         require("lang/en.php"); break;
 }
