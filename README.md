@@ -51,5 +51,4 @@ echo $(curl http://localhost:8080 &> /dev/null && ps -eo pid,uid,gid,command,cgr
 
 ## Limitations
 
-* This code was not intended for public use, I did it for myself so if you want to use it you better know what you're doing as securing and fixing it is on your side
 * Animated WebP is not supported at this point
