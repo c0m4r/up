@@ -147,6 +147,7 @@ $("textarea").click(function() {
 	this.select();
 });
 
-$("#ts-a").click(function() { $("#ts").slideToggle(); return false; });
-$("#pp-a").click(function() { $("#pp").slideToggle(); return false; });
-$("#ct-a").click(function() { $("#ct").slideToggle(); return false; });
+$("#ts-a").click(function() { $('.rules p').hide(); $('#ts').slideToggle(); return false; });
+$("#pp-a").click(function() { $('.rules p').hide(); $('#pp').slideToggle(); return false; });
+$("#ct-a").click(function() { $('.rules p').hide(); $('#ct').slideToggle(); return false; });
+$('.rules p').click(function() { $(this).slideToggle(); return false; });

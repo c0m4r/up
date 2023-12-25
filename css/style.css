@@ -108,7 +108,7 @@ img
 .main
 {
 	padding:80px 20px;
-	background:url("../img/uploader.png") no-repeat 50% -150px;
+	background:url("../img/uploader.webp") no-repeat 50% -150px;
 	text-align:center;
 }
 	
@@ -211,6 +211,8 @@ img
 		.rules p
 		{
 			display:none;
+			cursor:pointer;
+			user-select: none;
 		}
 
 .last
