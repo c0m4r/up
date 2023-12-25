@@ -8,12 +8,16 @@ if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 
 switch($lang)
 {
+    case 'fr':
+	require("lang/fr.php"); break;
+    case 'ja':
+        require("lang/ja.php"); break;
+    case 'ko':
+        require("lang/ko.php"); break;
     case 'pl':
-	require("lang/pl.php"); break;
+        require("lang/pl.php"); break;
     case 'uk':
         require("lang/uk.php"); break;
-    case 'fr':
-        require("lang/fr.php"); break;
     default:
         require("lang/en.php"); break;
 }
