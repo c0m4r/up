@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2023-12-25
+
+### Added
+
+- added French language: fr (français)
+- added Japanese language: ja (日本語)
+- added Korean language: ko (한국어)
+- added Ukrainian language: ua (українська)
+
+### Changed
+
+- change ipv6 docker example addresses
+
 ## [2.2.0] - 2023-12-25
 
 ### Added
