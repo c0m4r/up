@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2023-12-25
+
+### Added
+
+- added csp header with nonce
+- added config options for sri and csp
+
+### Changed
+
+- code refactoring
+- added PHP_EXPOSE_PHP=Off in docker compose configs
+- bg image converted to webp
+- improved menu
+
+### Removed
+
+- removed obsolete headers from docker nginx config
+
 ## [2.1.4] - 2023-12-24
 
 ### Added
