@@ -14,8 +14,8 @@ services:
       - php-fpm
     networks:
       net6:
-        ipv6_address: fd00:fd00:ffff::10
-    dns: fd00:fd00:ffff::1
+        ipv6_address: fd97:3e0c:cbdc::10
+    dns: fd97:3e0c:cbdc::1
   php-fpm:
     image: joseluisq/php-fpm:8.2
     environment:
@@ -30,8 +30,8 @@ services:
       - .:/usr/share/nginx/html/
     networks:
       net6:
-        ipv6_address: fd00:fd00:ffff::20
-    dns: fd00:fd00:ffff::1
+        ipv6_address: fd97:3e0c:cbdc::20
+    dns: fd97:3e0c:cbdc::1
 networks:
   net6:
     enable_ipv6: true
@@ -39,5 +39,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: fd00:fd00:ffff::/64
-          gateway: fd00:fd00:ffff::1
+        - subnet: fd97:3e0c:cbdc::/64
+          gateway: fd97:3e0c:cbdc::1
