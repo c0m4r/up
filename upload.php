@@ -11,11 +11,8 @@ require("lang.php");
 // Global variables
 
 $name 		= "up";
-$max_size 	= $config["max_filesize"];
-$upload_dir 	= $config["upload_dir"];
-$max_files 	= $config["files_limit"];
-$files_count 	= count(glob("$upload_dir/*.*"));
-$domeny 	= explode(",",$config["allowed_hosts"]);
+$files_count 	= count(glob("$config->upload_dir/*.*"));
+$domeny 	= explode(",",$config->allowed_hosts);
 
 if(!in_array($_SERVER["HTTP_HOST"], $domeny))
 {
@@ -27,7 +24,7 @@ elseif(!$_SERVER["REQUEST_URI"] == '/' and !preg_match('/^[A-Za-z0-9_\/$/',$_SER
 }
 else
 {
-	if($files_count >= $max_files)
+	if($files_count >= $config->files_limit)
 	{
 		$callback = array("error" => $lang["koniec_miejsca"]);
 	}
@@ -62,7 +59,7 @@ else
 
 		// Combine the URL
 		
-		$up->url = $up->proto.'://'.$up->host.preg_replace("/upload\.php/", "", $up->uri).$upload_dir.'/'; // output file url prefix
+		$up->url = $up->proto.'://'.$up->host.preg_replace("/upload\.php/", "", $up->uri).$config->upload_dir.'/'; // output file url prefix
 
 		// Temporary file location
 		
@@ -99,7 +96,7 @@ else
 		{
 			$callback = array("error" => $lang["nieobslugiwany_typ"]);
 		}
-		elseif($_FILES[$name]['size'] > $max_size)
+		elseif($_FILES[$name]['size'] > $config->max_filesize)
 		{
 			$callback = array("error" => $lang["plik_zbyt_duzy"]);
 		}
@@ -194,14 +191,14 @@ else
 				
 				switch($filetype)
 				{
-					case "gif": imagegif($img, "$upload_dir/$up->image"); break;
-					case "ani.gif": file_put_contents("$upload_dir/$up->image", $image->getContents()); break;
-					case "jpg": imagejpeg($img, "$upload_dir/$up->image"); break;
-					case "png": imagepng($img, "$upload_dir/$up->image"); break;
-					case "webp": imagewebp($img, "$upload_dir/$up->image"); break;
+					case "gif": imagegif($img, "$config->upload_dir/$up->image"); break;
+					case "ani.gif": file_put_contents("$config->upload_dir/$up->image", $image->getContents()); break;
+					case "jpg": imagejpeg($img, "$config->upload_dir/$up->image"); break;
+					case "png": imagepng($img, "$config->upload_dir/$up->image"); break;
+					case "webp": imagewebp($img, "$config->upload_dir/$up->image"); break;
 				}
 				
-				if(getimagesize("$upload_dir/$up->image"))
+				if(getimagesize("$config->upload_dir/$up->image"))
 				{
 					$callback = array("msg" => $up->url . $up->image);
 					
@@ -227,7 +224,7 @@ else
 				}
 				else
 				{
-					unlink("$upload_dir/$up->image");
+					unlink("$config->upload_dir/$up->image");
 					$callback = array("error" => $lang["nieprawidlowy_format"]);
 				}
 			}

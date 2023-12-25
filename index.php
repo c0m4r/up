@@ -3,51 +3,60 @@
 // up - an image uploader
 // https://github.com/c0m4r/up
 
-require("config.php");
-require("lang.php");
+require_once 'config.php';
+require_once 'lang.php';
 
-if(!is_writable($config["upload_dir"])) die("up error: upload dir is not writeable, check permissions");
-if(!is_writable($config["logs_dir"])) die("up error: logs dir is not writeable, check permissions");
+// Validation
+if(!empty($_GET) or !empty($_POST)) {
+    header('HTTP/1.0 405 Method Not Allowed'); exit("405 Method Not Allowed\n");
+} elseif(!is_writable($config->upload_dir)) {
+    header('HTTP/1.0 503 Service Unavailable'); die("error: upload dir is not writeable\n");
+} elseif(!is_writable($config->logs_dir)) {
+    header('HTTP/1.0 503 Service Unavailable'); die("error: logs dir is not writeable\n");
+} elseif(!is_file('vendor/autoload.php')) {
+    header('HTTP/1.0 503 Service Unavailable'); die("error: composer not found\n");
+}
 
+// Encoding
 header ("Content-Type: text/html; charset=utf-8");
 
 // CSP header
-$nonce = bin2hex(openssl_random_pseudo_bytes(32));
-header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce';");
+if($config->csp) {
+    $nonce = bin2hex(openssl_random_pseudo_bytes(32));
+    header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce';");
+}
 
-if(is_file('vendor/autoload.php'))
-    require_once 'vendor/autoload.php';
-else
-    die('error: composer is not installed');
+// Composer
+require_once 'vendor/autoload.php';
 
+// Twig loader
 $loader = new \Twig\Loader\FilesystemLoader('tpl');
 $twig = new \Twig\Environment($loader);
 
-$vars = array();
-
-$vars["max_size"] = $config["max_filesize"]; // max file size
-
-$max_files = $config["files_limit"]; // max number of stored files
-$files_count = count(glob($config["upload_dir"]."/*.*"));
-
-$vars["counter"]["files"] = $files_count;
-$vars["counter"]["procent"] = round($files_count / $max_files * 100);
-
-$vars["lang"] = $lang;
-$vars["config"] = $config;
+// Count percent of used space
+$files_count = count(glob($config->upload_dir."/*.*"));
+$space_used_percent = round($files_count / $config->files_limit * 100);
 
 // SRI Hash generator
 function sri($file) {
-	$f = fopen($file, "r");
-	$body = fread($f, filesize($file));
-	$hash = hash('sha384', $body, true);
-	return "sha384-".base64_encode($hash);
+    $handle = fopen($file, "r");
+    $body = fread($handle, filesize($file));
+    $hash = hash('sha384', $body, true);
+    return "sha384-".base64_encode($hash);
 }
 
-$vars["sri"]["stylecss"] = sri("css/style.css");
-$vars["sri"]["jqueryminjs"] = sri("vendor/components/jquery/jquery.min.js");
-$vars["sri"]["upjs"] = sri("js/up.js");
-
-echo $twig->render('index.html', $vars);
+// Print site
+echo $twig->render('index.html', array
+(
+    "config" => $config,
+    "lang" => $lang,
+    "sri" => array
+    (
+        "stylecss" => sri("css/style.css"),
+        "jqueryminjs" => sri("vendor/components/jquery/jquery.min.js"),
+        "upjs" => sri("js/up.js")
+    ),
+    "space_used_percent" => $space_used_percent
+));
 
 ?>

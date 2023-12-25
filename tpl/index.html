@@ -8,14 +8,14 @@
 	<meta name="github:creator" content="c0m4r">
 	<meta name="github:website" content="https://github.com/c0m4r/up">
 	<link rel="icon" type="image/png" href="favicon.ico">
-	<link href="css/style.css" rel="stylesheet" media="screen" type="text/css" integrity="{{ sri.stylecss }}" crossorigin="anonymous" />
+	<link href="css/style.css" rel="stylesheet" media="screen" type="text/css"{% if config.sri%} integrity="{{ sri.stylecss }}" crossorigin="anonymous"{% endif %}>
 </head>
 <body>
 	
 	<div class="panel">
 		
 		<div class="header">Image Uploader</div>
-		<div class="quota">{{lang.zajete_miejsce}}: {{counter.procent}}%</div>
+		<div class="quota">{{lang.zajete_miejsce}}: {{space_used_percent}}%</div>
 		
 		<br class="clear" />
 		
@@ -30,7 +30,7 @@
 		<form id="form1" enctype="multipart/form-data" method="post" action="./">
 		
 			<div>
-				<input type="hidden" name="MAX_FILE_SIZE" value="{{max_size}}" />
+				<input type="hidden" name="MAX_FILE_SIZE" value="{{config.max_filesize}}" />
 				<input type="file" name="up" id="up" class="flyhigh" aria-label="file" />
 			</div>
 			
@@ -83,8 +83,8 @@
 	
 	</div>
 	
-	<script type="text/javascript" src="vendor/components/jquery/jquery.min.js" integrity="{{ sri.jqueryminjs }}" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="js/up.js" integrity="{{ sri.upjs }}" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="vendor/components/jquery/jquery.min.js"{% if config.sri %} integrity="{{ sri.jqueryminjs }}" crossorigin="anonymous"{% endif %}></script>
+	<script type="text/javascript" src="js/up.js"{% if config.sri %} integrity="{{ sri.upjs }}" crossorigin="anonymous"{% endif %}></script>
 	
 </body>
 </html>
