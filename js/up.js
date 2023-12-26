@@ -52,6 +52,11 @@ function uploadProgress(evt)
 		var percentComplete = Math.round(evt.loaded * 100 / evt.total);
 		document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
 		$("progress").val(percentComplete.toString());
+
+		if(percentComplete == 100)
+		{
+			$(".malscan").show();
+		}
 	}
 	else
 	{
@@ -73,6 +78,7 @@ function uploadComplete(evt)
 			$("#progressNumber").text("");
 			$("progress").val("0");
 			$(".results").hide();
+			$(".malscan").hide();
 		}
 		else if(callback.msg)
 		{
@@ -91,6 +97,7 @@ function uploadComplete(evt)
 			$(".image").append('<a href="' + callback.msg + '" target="_blank"><img src="' + callback.msg + '" alt="" /></a>');
 			$("progress").val("100");
 			$("#progressNumber").text("100%");
+			$(".malscan").hide();
 		}
 	}
 	else if(callback[0] != "{")
@@ -99,6 +106,7 @@ function uploadComplete(evt)
 		$("#progressNumber").text("");
 		$("progress").val("0");
 		$(".results").hide();
+		$(".malscan").hide();
 	}
 }
 

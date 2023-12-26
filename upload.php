@@ -64,7 +64,7 @@ else
 		// Temporary file location
 		
 		$up->tmp = $_FILES[$name]['tmp_name'];
-		
+
 		// Filesize
 		
 		$up->size = $_FILES[$name]['size'];
@@ -186,9 +186,40 @@ else
 			
 			if($filetype)
 			{
+				$ip = $_SERVER["REMOTE_ADDR"];
+
+				// For reverse proxy
+
+				if(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+				{
+					if(filter_var($_SERVER["HTTP_X_FORWARDED_FOR"], FILTER_VALIDATE_IP))
+					{
+						$ip = $ip . "(" .$_SERVER["HTTP_X_FORWARDED_FOR"]. ")";
+					}
+				}
+
+				$czas = date("Y-m-d H:i:s");
+
+				// Loki scan
+				if(is_file("Loki/loki.py") and is_file("Loki/scan.sh") and function_exists("shell_exec"))
+				{
+					$loki_scan_dir = dirname($up->tmp);
+					$loki = shell_exec("cd Loki && /bin/sh scan.sh $loki_scan_dir 2>&1");
+
+					if($loki)
+					{
+						$fp = fopen('logs/malware.log', 'a');
+						fwrite($fp, "[$czas] $ip\r\n");
+						fclose($fp);
+
+						$callback = array("error" => "malware detected");
+						die(json_encode($callback));
+					}
+				}
+
 				$bytes = openssl_random_pseudo_bytes(16, $strong);
 				$up->image = bin2hex($bytes) . "." . $filetype;
-				
+
 				switch($filetype)
 				{
 					case "gif": imagegif($img, "$config->upload_dir/$up->image"); break;
@@ -203,20 +234,6 @@ else
 					$callback = array("msg" => $up->url . $up->image);
 					
 					// Zapis do logu
-					
-					$ip = $_SERVER["REMOTE_ADDR"];
-
-					// For reverse proxy
-
-					if(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
-					{
-						if(filter_var($_SERVER["HTTP_X_FORWARDED_FOR"], FILTER_VALIDATE_IP))
-						{
-							$ip = $ip . "(" .$_SERVER["HTTP_X_FORWARDED_FOR"]. ")";
-						}
-					}
-					
-					$czas = date("Y-m-d H:i:s");
 					
 					$fp = fopen('logs/uploads.log', 'a');
      					fwrite($fp, "[$czas] $ip ".$up->url.$up->image." ".$up->size."\r\n");

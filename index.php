@@ -45,6 +45,13 @@ function sri($file) {
     return "sha384-".base64_encode($hash);
 }
 
+// Loki scan
+if(is_file("Loki/loki.py") and is_file("Loki/scan.sh") and function_exists("shell_exec")) {
+    $loki = true;
+} else {
+    $loki = false;
+}
+
 // Print site
 echo $twig->render('index.html', array
 (
@@ -56,7 +63,8 @@ echo $twig->render('index.html', array
         "jqueryminjs" => sri("vendor/components/jquery/jquery.min.js"),
         "upjs" => sri("js/up.js")
     ),
-    "space_used_percent" => $space_used_percent
+    "space_used_percent" => $space_used_percent,
+    "loki" => $loki
 ));
 
 ?>
