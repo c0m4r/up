@@ -47,6 +47,12 @@ Change uid:gid depending on your setup so the PHP-FPM have write access to the `
 echo $(curl http://localhost:8080 &> /dev/null && ps -eo pid,uid,gid,command,cgroup | grep docke[r] | grep "php-fpm: pool www" | awk '{print $2":"$3}')
 ```
 
+## Loki integration
+
+As an additional security measure you might want to scan uploaded files for malware.
+
+See: [Loki integration (experimental)](https://github.com/c0m4r/up/wiki/Loki-integration-(experimental))
+
 ## Limitations
 
 * Animated WebP is not supported at this point
