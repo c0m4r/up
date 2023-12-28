@@ -200,13 +200,23 @@ else
 
 				$czas = date("Y-m-d H:i:s");
 
-				// Loki scan
-				if(is_file("Loki/loki.py") and is_file("Loki/scan.sh") and function_exists("shell_exec"))
+				// Loki-daemonized scan (experimental)
+				if(function_exists("socket_create") and $config->loki)
 				{
-					$loki_scan_dir = dirname($up->tmp);
-					$loki = shell_exec("cd Loki && /bin/sh scan.sh $loki_scan_dir 2>&1");
+					$socket = socket_create(AF_INET, SOCK_STREAM, 0);
+					$result = socket_connect($socket, $config->loki_host, $config->loki_port);
 
-					if($loki)
+					if($result) {
+						$message = $up->tmp;
+						socket_write($socket, $message, strlen($message));
+						$loki = socket_read ($socket, 1024);
+					} else {
+						$loki = false;
+					}
+
+					socket_close($socket);
+
+					if($loki and preg_match("/detected/", $loki))
 					{
 						$fp = fopen('logs/malware.log', 'a');
 						fwrite($fp, "[$czas] $ip\r\n");
