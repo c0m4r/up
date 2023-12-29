@@ -2,11 +2,13 @@
 <html lang="pl">
 <head>
 	<title>Image Uploader</title>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="up - an image uploader">
 	<meta name="github:creator" content="c0m4r">
 	<meta name="github:website" content="https://github.com/c0m4r/up">
+	<meta name="theme-color" content="#116acf">
+	<link rel="manifest" href="manifest.json">
 	<link rel="icon" type="image/png" href="favicon.ico">
 	<link href="css/style.css" rel="stylesheet" media="screen" type="text/css"{% if config.sri %} integrity="{{ sri.stylecss }}" crossorigin="anonymous"{% endif %}>
 </head>
@@ -17,7 +19,7 @@
 		<div class="header">Image Uploader</div>
 		<div class="quota">{{lang.zajete_miejsce}}: {{space_used_percent}}%</div>
 		
-		<br class="clear" />
+		<br class="clear">
 		
 	</div>
 	
@@ -30,8 +32,8 @@
 		<form id="form1" enctype="multipart/form-data" method="post" action="./">
 		
 			<div>
-				<input type="hidden" name="MAX_FILE_SIZE" value="{{config.max_filesize}}" />
-				<input type="file" name="up" id="up" class="flyhigh" aria-label="file" />
+				<input type="hidden" name="MAX_FILE_SIZE" value="{{config.max_filesize}}">
+				<input type="file" name="up" id="up" class="flyhigh" aria-label="file">
 			</div>
 			
 			<noscript><p>{{lang.wlacz_javascript}}</p></noscript>
@@ -39,14 +41,14 @@
 			<div class="results">
 				<p class="ctrl"></p>
 				<textarea class="result"></textarea>
-				<br />
+				<br>
 				<textarea class="result_html"></textarea>
 				<textarea class="result_forum"></textarea>
 			</div>
 			
 			<p><progress value="0" max="100"></progress> <span id="progressNumber"></span></p>
 
-			{% if loki %}<div class="malscan"><p>Running malware scan, please wait...<br /><span class="loader"></span></p></div>{% endif %}
+			{% if loki %}<div class="malscan"><p>Running malware scan, please wait...<br><span class="loader"></span></p></div>{% endif %}
 
 			<div class="info" id="fileInfo"></div>
 			
@@ -54,7 +56,7 @@
 		
 		<p class="note">{{lang.wybierz_plik}}</p>
 
-		<br />
+		<br>
 
 		<ul id="features">
 			<li class="mb">10 MB</li>
@@ -65,7 +67,7 @@
 			<li class="webp">WebP</li>
 		</ul>
 		
-		<br />
+		<br>
 		
 		<div class="rules">
 
@@ -85,8 +87,8 @@
 	
 	</div>
 	
-	<script type="text/javascript" src="vendor/components/jquery/jquery.min.js"{% if config.sri %} integrity="{{ sri.jqueryminjs }}" crossorigin="anonymous"{% endif %}></script>
-	<script type="text/javascript" src="js/up.js"{% if config.sri %} integrity="{{ sri.upjs }}" crossorigin="anonymous"{% endif %}></script>
+	<script src="vendor/components/jquery/jquery.min.js"{% if config.sri %} integrity="{{ sri.jqueryminjs }}" crossorigin="anonymous"{% endif %}></script>
+	<script src="js/up.js"{% if config.sri %} integrity="{{ sri.upjs }}" crossorigin="anonymous"{% endif %}></script>
 	
 </body>
 </html>
