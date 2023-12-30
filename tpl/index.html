@@ -30,10 +30,7 @@
             <noscript><p>{{lang.wlacz_javascript}}</p></noscript>
             <div class="results">
                 <p class="ctrl"></p>
-                <textarea id="result" class="result"></textarea>
-                <br>
-                <textarea id="result_html" class="result_html"></textarea>
-                <textarea id="result_forum" class="result_forum"></textarea>
+                <input type="text" name="result" id="result" class="result" aria-label="result" value="">
             </div>
             <p><progress value="0" max="100"></progress> <span id="progressNumber"></span></p>
             {% if loki %}<div class="malscan"><p>Running malware scan, please wait...<br><span class="loader"></span></p></div>{% endif %}
@@ -59,8 +56,7 @@
            <p id="ct">{{ lang.kontakt_tekst }}</p>
         </div>
     </div>
-    <div class="last">
-    </div>
+    <div class="last"></div>
     <script src="vendor/components/jquery/jquery.min.js"{% if config.sri %} integrity="{{ sri.jqueryminjs }}" crossorigin="anonymous"{% endif %}></script>
     <script src="js/up.min.js"{% if config.sri %} integrity="{{ sri.upjs }}" crossorigin="anonymous"{% endif %}></script>
 </body>

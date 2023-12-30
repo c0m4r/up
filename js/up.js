@@ -2,10 +2,10 @@ function fileSelected()
 {
 	var file = document.getElementById('up').files[0];
 	
-	if (file)
+	if(file)
 	{
 		var fileSize = 0;
-                var max_file_size = $("input[name=MAX_FILE_SIZE]").val();
+        var max_file_size = $("input[name=MAX_FILE_SIZE]").val();
 		
 		if (file.size > 1024 * 1024)
 		{
@@ -88,11 +88,14 @@ function uploadComplete(evt)
 			}
 			
 			$(".results").slideUp().slideToggle();
-			$(".result").text(callback.msg).show();
-			$(".result_html").text('<a href="' + callback.msg + '"><img src="' + callback.msg + '" alt="" /></a>').show();
-			$(".result_forum").text('[IMG]' + callback.msg + '[/IMG]').show();
-			$("textarea").select();
-			$(".result").select();
+			$(".result").val(callback.msg).show();
+
+			if(window.innerWidth >= 600)
+			{
+			    $("input[type=text]").select();
+			    $(".result").select();
+			}
+
 			$(".image a").remove();
 			$(".image").append('<a href="' + callback.msg + '" target="_blank"><img src="' + callback.msg + '" alt="" /></a>');
 			$("progress").val("100");
@@ -132,27 +135,30 @@ function escapeHtml(text) {
 	return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
-$(".result").focus(function()
+if(window.innerWidth >= 600)
 {
-	$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = URL");
-});
+    $(".result").focus(function()
+    {
+	    $(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = URL");
+    });
 
-$(".result_html").focus(function()
-{
-	$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = HTML");
-});
+    $(".result_html").focus(function()
+    {
+	    $(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = HTML");
+    });
 
-$(".result_forum").focus(function()
-{
-	$(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = FORUM");
-});
+    $(".result_forum").focus(function()
+    {
+	    $(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = FORUM");
+    });
+
+    $("input[type=text]").click(function() {
+        this.select();
+    });
+}
 
 $(".flyhigh").change(function() {
-	return fileSelected();
-});
-
-$("textarea").click(function() {
-	this.select();
+    return fileSelected();
 });
 
 $("#ts-a").click(function() { $('.rules p').hide(); $('#ts').slideToggle(); return false; });

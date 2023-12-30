@@ -39,14 +39,29 @@ img
 
 .flyhigh
 {
-	padding:15px 75px;
-	border:3px dashed #ddd;
+    padding:15px 75px;
 	cursor:pointer;
+	border:3px dashed #ddd;
+}
+
+@media only screen and (max-width: 600px) {
+    .image img {
+        max-height:25%;
+        max-width:25%;
+    }
+
+    h2 {
+        font-size:18px;
+    }
+
+    .flyhigh {
+        padding:15px 25px;
+    }
 }
 
 .flyhigh:hover
 {
-	border:3px dashed #76BF00;
+    border:3px dashed #76BF00;
 }
 
 #features
@@ -107,7 +122,7 @@ img
 
 .main
 {
-	padding:80px 20px;
+	padding-top:80px;
 	background:url("../img/uploader.webp") no-repeat 50% -150px;
 	text-align:center;
 }
@@ -116,8 +131,8 @@ img
 	{
 		right:10px;
 		margin-top:-70px;
-		max-width:25%;
-		max-height:25%;
+		max-height:35%;
+        max-width:35%;
 		position:absolute;
 		
 		/* Round center */
@@ -151,7 +166,7 @@ img
 	
 	progress
 	{
-		width:220px;
+		max-width:220px;
 	}
 	
 	#progressNumber
@@ -168,32 +183,15 @@ img
 		display:none;
 	}
 	
-		textarea
-		{
-			max-width:50%;
-			height:30px;
-			padding:10px;
-		}
-		
 		.result
 		{
 			width:600px;
 			text-align:center;
 			font-size:120%;
+			max-width:95%;
+			padding:10px;
 		}
 
-		.result_html
-		{
-			width:285px;
-			height:60px;
-		}
-
-		.result_forum
-		{
-			width:285px;
-			height:60px;
-		}
-		
 		.ctrl
 		{
 			color:#888;
