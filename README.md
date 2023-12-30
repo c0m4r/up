@@ -8,7 +8,7 @@ Uploaded image is verified and re-created from its contents to provide some laye
 
 <div align="center">
 
-![image](https://github.com/c0m4r/up/assets/6292788/4857a9d3-cc88-4a7a-99be-91a58b842a6e)
+![image](https://github.com/c0m4r/up/assets/6292788/b05081b1-73ff-4777-b43f-b56b87d86497)
 
 ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white) ![PWA](https://img.shields.io/badge/webapp-black.svg?style=for-the-badge&logo=pwa&logoColor=white)
 
