@@ -23,7 +23,7 @@ header ("Content-Type: text/html; charset=utf-8");
 // CSP header
 if($config->csp) {
     $nonce = bin2hex(openssl_random_pseudo_bytes(32));
-    header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce';");
+    header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; base-uri 'self';");
 }
 
 // Composer
