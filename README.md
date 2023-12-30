@@ -2,7 +2,7 @@
 
 An image uploader. Written in PHP, supports popular formats: png, jpeg, gif, webp.
 
-Lets you upload multiple images in a row and see them all in one view. Generates embed codes and a permalink. No bullshit steps along the way.
+Lets you upload multiple images in a row and see them all in one view. Generates a permalink and lets you copy it right away. No bullshit steps along the way.
 
 Uploaded image is verified and re-created from its contents to provide some layer of security against exploits.
 
