@@ -8,7 +8,13 @@ Uploaded image is verified and re-created from its contents to provide some laye
 
 ![image](https://github.com/c0m4r/up/assets/6292788/3cfa5183-c7db-44be-b9c3-e18ef564252d)
 
+<div align="center">
+
 ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white) ![PWA](https://img.shields.io/badge/webapp-black.svg?style=for-the-badge&logo=pwa&logoColor=white)
+
+![image](https://github.com/c0m4r/up/assets/6292788/6b05a874-1841-49b3-ae19-19a8ae42d056)
+
+</div>
 
 ## Deps
 
