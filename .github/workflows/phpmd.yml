@@ -50,6 +50,9 @@ jobs:
         run: phpmd . sarif cleancode,codesize,controversial,design,naming,unusedcode --reportfile phpmd-results.sarif
         continue-on-error: true
 
+      - name: PHP lint
+        run: php -l *.php
+
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v2
         with:
