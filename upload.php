@@ -8,269 +8,184 @@ use Imagecraft\ImageBuilder;
 require("config.php");
 require("lang.php");
 
-// Global variables
+// Vars
+$name = "up";
+$files_count = count(array_diff(scandir($config->upload_dir), array('..', '.')));
+$domeny = explode(",",$config->allowed_hosts);
+$types = array("image/gif", "image/jpeg", "image/pjpeg", "image/x-png", "image/png", "image/webp");
 
-$name 		= "up";
-$files_count 	= count(glob("$config->upload_dir/*.*"));
-$domeny 	= explode(",",$config->allowed_hosts);
+$up = new stdClass();
 
-if(!in_array($_SERVER["HTTP_HOST"], $domeny))
-{
-	echo json_encode(array("error" => "host check error"));
+$up->host = $_SERVER["HTTP_HOST"];
+
+function callback($key, $value) {
+    echo json_encode(array($key => $value));
 }
-elseif(!$_SERVER["REQUEST_URI"] == '/' and !preg_match('/^[A-Za-z0-9_\/$/',$_SERVER["REQUEST_URI"]))
-{
-	echo json_encode(array("error" => "bad request"));
-}
-else
-{
-	if($files_count >= $config->files_limit)
-	{
-		$callback = array("error" => $lang["koniec_miejsca"]);
-	}
-	elseif(isset($_FILES[$name]))
-	{
-		// Local variables
-		
-		$up = new stdClass();
 
-		// Reading protocol
+if(!in_array($up->host, $domeny)) {
+    callback("error", "host check error");
+} elseif($files_count >= $config->files_limit) {
+    callback("error", $lang["koniec_miejsca"]);
+} elseif(!isset($_FILES[$name])) {
+    callback("error", $lang["najpierw_wybierz_plik"]);
+} else {
+    // Reading protocol
+    if($config->ssl) {
+        $up->proto = "https";
+    } else {
+        $up->proto = "http";
+    }
 
-		if(isset($_SERVER["HTTP_X_FORWARDED_PROTO"]))
-		{
-			$up->proto = $_SERVER["HTTP_X_FORWARDED_PROTO"];
-		}
-		else
-		{
-			$up->proto = $_SERVER["REQUEST_SCHEME"];
-		}
+    // Strip HTTP_HOST
+    $up->host = htmlspecialchars($up->host);
 
-		// Validate protocol
-		
-		if(!in_array($up->proto, array("http", "https")))
-		{
-			$up->proto = "https";
-		}
+    // Combine the URL
+    $up->url = $up->proto.'://'.$up->host.$config->webroot.$config->upload_dir.'/';
 
-		// Validate HTTP_HOST and REQUEST_URI
+    // Temporary file location
+    $up->tmp = $_FILES[$name]['tmp_name'];
 
-		$up->host = htmlspecialchars($_SERVER["HTTP_HOST"]);
-		$up->uri = htmlspecialchars($_SERVER["REQUEST_URI"]);
+    // Filesize
+    $up->size = $_FILES[$name]['size'];
 
-		// Combine the URL
-		
-		$up->url = $up->proto.'://'.$up->host.preg_replace("/upload\.php/", "", $up->uri).$config->upload_dir.'/'; // output file url prefix
+    // Check mime type
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $up->type = $finfo->file($up->tmp);
 
-		// Temporary file location
-		
-		$up->tmp = $_FILES[$name]['tmp_name'];
+    // Image validation
+    if(isset($_FILES[$name]['error']) and $_FILES[$name]['error'] == 1) {
+        callback("error", $lang["plik_zbyt_duzy"]);
+    } elseif(!in_array($up->type,$types)) {
+        callback("error", $lang["nieobslugiwany_typ"]);
+    } elseif($_FILES[$name]['size'] > $config->max_filesize) {
+        callback("error", $lang["plik_zbyt_duzy"]);
+    } elseif(!is_uploaded_file($up->tmp) or !getimagesize($up->tmp)) {
+        callback("error", $lang["obiekt_nie_jest_graficzny"]);
+    } else {
+        // Extension check
+        if($up->type == "image/gif" and exif_imagetype($up->tmp) == IMAGETYPE_GIF) {
+            // Detect animation
+            $filecontents = file_get_contents($up->tmp);
 
-		// Filesize
-		
-		$up->size = $_FILES[$name]['size'];
-		
-		// Supported file types
-		
-		$types = array
-		(
-			"image/gif",
-			"image/jpeg",
-			"image/pjpeg",
-			"image/x-png",
-			"image/png",
-			"image/webp"
-		);
+            $str_loc=0;
+            $count=0;
 
-		// Check mime type
+            while ($count < 2) {
+                $where1=strpos($filecontents,"\x00\x21\xF9\x04",$str_loc);
 
-		$finfo = new finfo(FILEINFO_MIME_TYPE);
-		$up->type = $finfo->file($up->tmp);
-		
-		// Image validation
-		
-		if(isset($_FILES[$name]['error']) and $_FILES[$name]['error'] == 1)
-		{
-			$callback = array("error" => $lang["plik_zbyt_duzy"]);
-		}
-		elseif(!in_array($up->type,$types))
-		{
-			$callback = array("error" => $lang["nieobslugiwany_typ"]);
-		}
-		elseif($_FILES[$name]['size'] > $config->max_filesize)
-		{
-			$callback = array("error" => $lang["plik_zbyt_duzy"]);
-		}
-		elseif(is_uploaded_file($up->tmp) && getimagesize($up->tmp))
-		{
-			// Extension
-			
-			if($up->type == "image/gif" and exif_imagetype($up->tmp) == IMAGETYPE_GIF)
-			{
-				$filecontents = file_get_contents($up->tmp);
+                if ($where1 === FALSE) {
+                    break;
+                } else {
+                    $str_loc=$where1+1;
+                    $where2=strpos($filecontents,"\x00\x2C",$str_loc);
 
-				$str_loc=0;
-				$count=0;
+                    if ($where2 === FALSE) {
+                        break;
+                    } else {
+                        if ($where1+8 == $where2) {
+                            $count++;
+                        }
 
-				while ($count < 2) # There is no point in continuing after we find a 2nd frame
-				{
-					$where1=strpos($filecontents,"\x00\x21\xF9\x04",$str_loc);
+                        $str_loc=$where2+1;
+                    }
+                }
+            }
 
-					if ($where1 === FALSE)
-					{
-						break;
-					}
-					else
-					{
-						$str_loc=$where1+1;
-						$where2=strpos($filecontents,"\x00\x2C",$str_loc);
+            if ($count > 1) {
+                $options = ['engine' => 'php_gd', 'locale' => 'en'];
+                $builder = new ImageBuilder($options);
 
-						if ($where2 === FALSE)
-						{
-							break;
-						}
-						else
-						{
-							if ($where1+8 == $where2)
-							{
-								$count++;
-							}
-							
-							$str_loc=$where2+1;
-						}
-					}
-				}
+                $image = $builder
+                    ->addBackgroundLayer()
+                        ->contents($filecontents)
+                        ->done()
+                    ->save()
+                ;
 
-				if ($count > 1)
-				{
-					$options = ['engine' => 'php_gd', 'locale' => 'en'];
-					$builder = new ImageBuilder($options);
+                $filetype = 'ani.gif';
+            } else {
+                $filetype = 'gif';
+                $img = imagecreatefromgif($up->tmp);
+            }
+        } elseif(in_array($up->type,array("image/jpeg","image/pjpeg")) and exif_imagetype($up->tmp) == IMAGETYPE_JPEG) {
+            $filetype = 'jpg';
+            $img = imagecreatefromjpeg($up->tmp);
+        } elseif(in_array($up->type,array("image/png","image/x-png")) and exif_imagetype($up->tmp) == IMAGETYPE_PNG) {
+            $filetype = 'png';
+            $img = imagecreatefrompng($up->tmp);
+            imagealphablending($img, false);
+            imagesavealpha($img, true);
+        } elseif(in_array($up->type,array("image/webp")) and exif_imagetype($up->tmp) == IMAGETYPE_WEBP) {
+            $filetype = 'webp';
+            $img = imagecreatefromwebp($up->tmp);
+        } else {
+            $filetype = false;
+        }
 
-					$image = $builder
-					    ->addBackgroundLayer()
-					        ->contents($filecontents)
-					        ->done()
-					    ->save()
-					;
+        // Filetype validation
+        if(!$filetype) {
+            callback("error", $lang["nieobslugiwany_typ"]);
+        } else {
+            $ip = $_SERVER["REMOTE_ADDR"];
 
-					$filetype = 'ani.gif';
-				}
-				else
-				{
-					$filetype = 'gif';
-					$img = imagecreatefromgif($up->tmp);
-				}
-			}
-			elseif(in_array($up->type,array("image/jpeg","image/pjpeg")) and exif_imagetype($up->tmp) == IMAGETYPE_JPEG)
-			{
-				$filetype = 'jpg';
-				$img = imagecreatefromjpeg($up->tmp);
-			}
-			elseif(in_array($up->type,array("image/png","image/x-png")) and exif_imagetype($up->tmp) == IMAGETYPE_PNG)
-			{
-				$filetype = 'png';
-				$img = imagecreatefrompng($up->tmp);
-				imagealphablending($img, false);
-				imagesavealpha($img, true);
-			}
-			elseif(in_array($up->type,array("image/webp")) and exif_imagetype($up->tmp) == IMAGETYPE_WEBP)
-			{
-				$filetype = 'webp';
-				$img = imagecreatefromwebp($up->tmp);
-			}
-			else
-			{
-				$filetype = false;
-			}
-			
-			// Filetype validation
-			
-			if($filetype)
-			{
-				$ip = $_SERVER["REMOTE_ADDR"];
+            // For reverse proxy
+            if(isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+                if(filter_var($_SERVER["HTTP_X_FORWARDED_FOR"], FILTER_VALIDATE_IP)) {
+                    $ip = $ip . "(" .$_SERVER["HTTP_X_FORWARDED_FOR"]. ")";
+                }
+            }
 
-				// For reverse proxy
+            $czas = date("Y-m-d H:i:s");
 
-				if(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
-				{
-					if(filter_var($_SERVER["HTTP_X_FORWARDED_FOR"], FILTER_VALIDATE_IP))
-					{
-						$ip = $ip . "(" .$_SERVER["HTTP_X_FORWARDED_FOR"]. ")";
-					}
-				}
+            // Loki-daemonized scan (experimental)
+            if(function_exists("socket_create") and $config->loki) {
+                $socket = socket_create(AF_INET, SOCK_STREAM, 0);
+                $result = socket_connect($socket, $config->loki_host, $config->loki_port);
 
-				$czas = date("Y-m-d H:i:s");
+                if($result) {
+                    $message = $up->tmp;
+                    socket_write($socket, $message, strlen($message));
+                    $loki = socket_read ($socket, 1024);
+                } else {
+                    $loki = false;
+                }
 
-				// Loki-daemonized scan (experimental)
-				if(function_exists("socket_create") and $config->loki)
-				{
-					$socket = socket_create(AF_INET, SOCK_STREAM, 0);
-					$result = socket_connect($socket, $config->loki_host, $config->loki_port);
+                socket_close($socket);
 
-					if($result) {
-						$message = $up->tmp;
-						socket_write($socket, $message, strlen($message));
-						$loki = socket_read ($socket, 1024);
-					} else {
-						$loki = false;
-					}
+                if($loki and preg_match("/detected/", $loki)) {
+                    $fp = fopen('logs/malware.log', 'a');
+                    fwrite($fp, "[$czas] $ip\r\n");
+                    fclose($fp);
 
-					socket_close($socket);
+                    callback("error", "malware detected");
+                    die();
+                }
+            }
 
-					if($loki and preg_match("/detected/", $loki))
-					{
-						$fp = fopen('logs/malware.log', 'a');
-						fwrite($fp, "[$czas] $ip\r\n");
-						fclose($fp);
+            $bytes = openssl_random_pseudo_bytes(16, $strong);
+            $up->image = bin2hex($bytes) . "." . $filetype;
 
-						$callback = array("error" => "malware detected");
-						die(json_encode($callback));
-					}
-				}
+            switch($filetype) {
+                case "gif": imagegif($img, "$config->upload_dir/$up->image"); break;
+                case "ani.gif": file_put_contents("$config->upload_dir/$up->image", $image->getContents()); break;
+                case "jpg": imagejpeg($img, "$config->upload_dir/$up->image"); break;
+                case "png": imagepng($img, "$config->upload_dir/$up->image"); break;
+                case "webp": imagewebp($img, "$config->upload_dir/$up->image"); break;
+            }
 
-				$bytes = openssl_random_pseudo_bytes(16, $strong);
-				$up->image = bin2hex($bytes) . "." . $filetype;
+            if(getimagesize("$config->upload_dir/$up->image")) {
+                callback("msg", $up->url.$up->image);
 
-				switch($filetype)
-				{
-					case "gif": imagegif($img, "$config->upload_dir/$up->image"); break;
-					case "ani.gif": file_put_contents("$config->upload_dir/$up->image", $image->getContents()); break;
-					case "jpg": imagejpeg($img, "$config->upload_dir/$up->image"); break;
-					case "png": imagepng($img, "$config->upload_dir/$up->image"); break;
-					case "webp": imagewebp($img, "$config->upload_dir/$up->image"); break;
-				}
-				
-				if(getimagesize("$config->upload_dir/$up->image"))
-				{
-					$callback = array("msg" => $up->url . $up->image);
-					
-					// Zapis do logu
-					
-					$fp = fopen('logs/uploads.log', 'a');
-     					fwrite($fp, "[$czas] $ip ".$up->url.$up->image." ".$up->size."\r\n");
-					fclose($fp);
-				}
-				else
-				{
-					unlink("$config->upload_dir/$up->image");
-					$callback = array("error" => $lang["nieprawidlowy_format"]);
-				}
-			}
-			else
-			{
-				$callback = array("error" => $lang["nieobslugiwany_typ"]);
-			}
-		}
-		else
-		{
-			$callback = array("error" => $lang["obiekt_nie_jest_graficzny"]);
-		}
-	}
-	else
-	{
-		$callback = array("error" => $lang["najpierw_wybierz_plik"]);
-	}
-
-	echo json_encode($callback);
+                // Zapis do logu
+                $fp = fopen('logs/uploads.log', 'a');
+                fwrite($fp, "[$czas] $ip ".$up->url.$up->image." ".$up->size."\r\n");
+                fclose($fp);
+            } else {
+                unlink("$config->upload_dir/$up->image");
+                callback("error", $lang["nieprawidlowy_format"]);
+            }
+        }
+    }
 }
 
 ?>

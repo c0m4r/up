@@ -34,7 +34,7 @@ $loader = new \Twig\Loader\FilesystemLoader('tpl');
 $twig = new \Twig\Environment($loader);
 
 // Count percent of used space
-$files_count = count(glob($config->upload_dir."/*.*"));
+$files_count = count(array_diff(scandir($config->upload_dir), array('..', '.')));
 $space_used_percent = round($files_count / $config->files_limit * 100);
 
 // SRI Hash generator
@@ -59,9 +59,9 @@ echo $twig->render('index.html', array
     "lang" => $lang,
     "sri" => array
     (
-        "stylecss" => sri("css/style.css"),
+        "stylecss" => sri("css/style.min.css"),
         "jqueryminjs" => sri("vendor/components/jquery/jquery.min.js"),
-        "upjs" => sri("js/up.js")
+        "upjs" => sri("js/up.min.js")
     ),
     "space_used_percent" => $space_used_percent,
     "loki" => $loki
