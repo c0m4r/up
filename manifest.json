@@ -1,5 +1,4 @@
 {
-    "id": "up",
     "name": "Image Uploader",
     "short_name": "Image Uploader",
     "theme_color": "#116acf",
@@ -10,7 +9,6 @@
     "description": "An image uploader",
     "orientation": "any",
     "launch_type": "single-client",
-    "categories": [ "photo" ],
     "icons": [
         {
             "src": "https://up.wolfet.pl/img/up-icon-48.png",
