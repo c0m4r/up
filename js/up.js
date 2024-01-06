@@ -113,12 +113,12 @@ function uploadComplete(evt)
 	}
 }
 
-function uploadFailed(evt)
+function uploadFailed()
 {
 	alert("upload error");
 }
 
-function uploadCanceled(evt)
+function uploadCanceled()
 {
 	alert("upload canceled");
 }
