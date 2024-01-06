@@ -1,5 +1,7 @@
 # up
 
+[![CodeFactor](https://www.codefactor.io/repository/github/c0m4r/up/badge)](https://www.codefactor.io/repository/github/c0m4r/up)
+
 An image uploader. Written in PHP, supports popular formats: png, jpeg, gif, webp.
 
 Lets you upload multiple images in a row and see them all in one view. Generates a permalink and lets you copy it right away. No bullshit steps along the way.
