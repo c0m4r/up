@@ -1,6 +1,9 @@
 # up
 
-![made with php](https://img.shields.io/badge/made%20with-php-%23777BB4?logo=php&logoColor=ffffff) [![CodeFactor](https://www.codefactor.io/repository/github/c0m4r/up/badge)](https://www.codefactor.io/repository/github/c0m4r/up)
+![made with php](https://img.shields.io/badge/made%20with-php-%23777BB4?logo=php&logoColor=ffffff)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Test](https://github.com/c0m4r/up/workflows/PHPMD/badge.svg)](https://github.com/c0m4r/up/actions)
+[![CodeFactor](https://www.codefactor.io/repository/github/c0m4r/up/badge)](https://www.codefactor.io/repository/github/c0m4r/up)
 
 An image uploader. Written in PHP, supports popular formats: png, jpeg, gif, webp.
 
