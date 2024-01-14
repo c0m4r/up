@@ -26,7 +26,7 @@ services:
       - .:/usr/share/nginx/html/
       - /tmp:/tmp
   loki:
-    build: Loki-daemonized/
+    image: c0m4r/Loki-daemonized:3.2.1
     volumes:
       - /tmp:/tmp
     expose:
