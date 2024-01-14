@@ -83,3 +83,7 @@ See: [Loki integration (experimental)](https://github.com/c0m4r/up/wiki/Loki-int
 ## Limitations
 
 * Animated WebP is not supported at this point
+
+## Funding
+
+If you found this software helpful, please consider [making donation](https://en.wosp.org.pl/fundacja/jak-wspierac-wosp/wesprzyj-online) to a charity on my behalf. Thank you.
