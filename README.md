@@ -44,6 +44,16 @@ Uploaded image is verified and re-created from its contents to provide some laye
 3. Edit config.php, replace `allowed_hosts` with your domain and adjust the settings to your needs.
 4. Edit manifest.json and change `start_url` for PWA.
 
+##### Quick setup
+
+```
+git clone https://github.com/c0m4r/up.git
+cd up
+wget https://getcomposer.org/download/2.6.6/composer.phar
+echo "72600201c73c7c4b218f1c0511b36d8537963e36aafa244757f52309f885b314 composer.phar" | sha256sum -c || rm composer.phar
+php composer.phar update
+```
+
 ### Docker
 
 This setup is based on [joseluisq/alpine-php-fpm](https://github.com/joseluisq/alpine-php-fpm)
@@ -52,7 +62,7 @@ This setup is based on [joseluisq/alpine-php-fpm](https://github.com/joseluisq/a
 git clone https://github.com/c0m4r/up.git
 cd up
 wget https://getcomposer.org/download/2.6.6/composer.phar
-echo "72600201c73c7c4b218f1c0511b36d8537963e36aafa244757f52309f885b314  composer.phar" | sha256sum -c || rm composer.phar
+echo "72600201c73c7c4b218f1c0511b36d8537963e36aafa244757f52309f885b314 composer.phar" | sha256sum -c || rm composer.phar
 docker compose up -d
 docker compose exec php-fpm /bin/sh -c "cd /usr/share/nginx/html && php composer.phar update"
 chown -R 82:82 i logs
