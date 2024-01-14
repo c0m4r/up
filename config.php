@@ -2,7 +2,7 @@
 
 $config = (object) array
 (
-    "allowed_hosts"  => 'example.com', // comma-separated list of allowed HTTP_HOST, simply your domain name
+    "allowed_hosts"  => 'localhost', // comma-separated list of allowed HTTP_HOST, simply your domain name
     "webroot"        => '/', // uploader path or web root with trailing slash
     "upload_dir"     => 'i', // final image destination, w/o leading nor trailing slash
     "logs_dir"       => 'logs', // where logs are stored, w/o leading nor trailing slash
