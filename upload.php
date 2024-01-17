@@ -159,22 +159,22 @@ if(!in_array($up->host, $domeny)) {
 
             $czas = date("Y-m-d H:i:s");
 
-            // Loki-daemonized scan (experimental)
-            if(function_exists("socket_create") and $config->loki) {
+            // paranoya scan (experimental)
+            if(function_exists("socket_create") and $config->paranoya) {
                 $socket = socket_create(AF_INET, SOCK_STREAM, 0);
-                $result = socket_connect($socket, $config->loki_host, $config->loki_port);
+                $result = socket_connect($socket, $config->paranoya_host, $config->paranoya_port);
 
                 if($result) {
                     $message = $up->tmp;
                     socket_write($socket, $message, strlen($message));
-                    $loki = socket_read ($socket, 1024);
+                    $paranoya = socket_read ($socket, 1024);
                 } else {
-                    $loki = false;
+                    $paranoya = false;
                 }
 
                 socket_close($socket);
 
-                if($loki and preg_match("/detected/", $loki)) {
+                if($paranoya and preg_match("/detected/", $paranoya)) {
                     $fp = fopen('logs/malware.log', 'a');
                     fwrite($fp, "[$czas] $ip\r\n");
                     fclose($fp);
