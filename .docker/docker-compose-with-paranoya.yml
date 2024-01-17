@@ -25,8 +25,8 @@ services:
     volumes:
       - .:/usr/share/nginx/html/
       - /tmp:/tmp
-  loki:
-    build: Loki-daemonized/addons/docker/default
+  paranoya:
+    build: paranoya/addons/docker/default
     volumes:
       - /tmp:/tmp
     expose:
