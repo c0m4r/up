@@ -33,7 +33,7 @@
                 <input type="text" name="result" id="result" class="result" aria-label="result" value="">
             </div>
             <p><progress value="0" max="100"></progress> <span id="progressNumber"></span></p>
-            {% if config.loki %}<div class="malscan"><p>Running malware scan, please wait...<br><span class="loader"></span></p></div>{% endif %}
+            {% if config.paranoya %}<div class="malscan"><p>Running malware scan, please wait...<br><span class="loader"></span></p></div>{% endif %}
             <div class="info" id="fileInfo"></div>
         </form>
         <p class="note">{{lang.wybierz_plik}}</p>
