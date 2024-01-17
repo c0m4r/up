@@ -11,9 +11,9 @@ $config = (object) array
     "ssl"            => true, // redirects to https
     "csp"            => true, // adds a Content-Security-Policy (CSP) security header with random nonce
     "sri"            => true, // adds a Subresource Integrity (SRI) hash for css/js integrity checks
-    "loki"           => false, // (experimental) https://github.com/c0m4r/up/wiki/Loki-integration-(experimental)
-    "loki_host"      => '127.0.0.1', // (experimental) loki-daemonized --listen-host
-    "loki_port"      => 1337 // (experimental) loki-daemonized --listen-port
+    "paranoya"       => false, // (experimental) https://github.com/c0m4r/up/wiki/paranoya-integration-(experimental)
+    "paranoya_host"  => '127.0.0.1', // (experimental) paranoya --listen-host
+    "paranoya_port"  => 1337 // (experimental) paranoya --listen-port
 );
 
 ?>
