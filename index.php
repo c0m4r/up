@@ -67,8 +67,8 @@ function sri($file) {
     return "sha384-".base64_encode($hash);
 }
 
-// Loki scan
-if(is_file("Loki/loki.py") and is_file("Loki/scan.sh") and function_exists("shell_exec")) {
+// paranoya scan
+if(function_exists("socket_create") and $config->paranoya) {
     $loki = true;
 } else {
     $loki = false;
