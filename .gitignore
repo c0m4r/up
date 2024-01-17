@@ -4,4 +4,3 @@
 /logs/*
 !/logs/.gitkeep
 /vendor
-/Loki
