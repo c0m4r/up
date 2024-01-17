@@ -69,9 +69,9 @@ function sri($file) {
 
 // paranoya scan
 if(function_exists("socket_create") and $config->paranoya) {
-    $loki = true;
+    $paranoya = true;
 } else {
-    $loki = false;
+    $paranoya = false;
 }
 
 // Print site
@@ -86,7 +86,7 @@ echo $twig->render('index.html', array
         "upjs" => sri("js/up.min.js")
     ),
     "space_used_percent" => $space_used_percent,
-    "loki" => $loki
+    "paranoya" => $paranoya
 ));
 
 ?>
