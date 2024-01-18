@@ -20,7 +20,8 @@ $lang = array
 	"polityka_prywatnosci"			=> "Privacy Policy",
 	"polityka_prywatnosci_tekst"            => "We will log your IP and upload time for safety.",
 	"kontakt"				=> "Contact",
-	"kontakt_tekst"                         => "Contact us here and there."
+	"kontakt_tekst"                         => "Contact us here and there.",
+	"malware_scan"                          => "Scanning for malware..."
 );
 
 ?>

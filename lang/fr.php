@@ -20,7 +20,8 @@ $lang = array
 	"polityka_prywatnosci"			=> "politique de confidentialité",
 	"polityka_prywatnosci_tekst"            => "Nous enregistrerons votre adresse IP et l'heure de téléchargement pour des raisons de sécurité.",
 	"kontakt"				=> "Contact",
-	"kontakt_tekst"                         => "Contactez-nous ici et là."
+	"kontakt_tekst"                         => "Contactez-nous ici et là.",
+        "malware_scan"                          => "Recherche de logiciels malveillants..."
 );
 
 ?>

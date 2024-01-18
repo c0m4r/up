@@ -16,30 +16,30 @@
 <body>
     <div class="panel">
         <div class="header">Image Uploader</div>
-        <div class="quota">{{lang.zajete_miejsce}}: {{space_used_percent}}%</div>
+        <div class="quota">{{ lang.zajete_miejsce }}: {{ space_used_percent }}%</div>
         <br class="clear">
     </div>
     <div class="main">
         <div class="image"></div>
-        <h2>{{lang.wgrywaj_screeny}}</h2>
+        <h2>{{ lang.wgrywaj_screeny }}</h2>
         <form id="form1" enctype="multipart/form-data" method="post" action="./">
             <div>
-                <input type="hidden" name="MAX_FILE_SIZE" value="{{config.max_filesize}}">
+                <input type="hidden" name="MAX_FILE_SIZE" value="{{ config.max_filesize }}">
                 <input type="file" name="up" id="up" class="flyhigh" accept="image/gif, image/jpeg, image/pjpeg, image/x-png, image/png, image/webp" aria-label="file">
             </div>
-            <noscript><p>{{lang.wlacz_javascript}}</p></noscript>
+            <noscript><p>{{ lang.wlacz_javascript }}</p></noscript>
             <div class="results">
                 <p class="ctrl"></p>
                 <input type="text" name="result" id="result" class="result" aria-label="result" value="">
             </div>
             <p><progress value="0" max="100"></progress> <span id="progressNumber"></span></p>
-            {% if config.paranoya %}<div class="malscan"><p>Running malware scan, please wait...<br><span class="loader"></span></p></div>{% endif %}
+            {% if config.paranoya %}<div class="malscan"><p>{{ lang.malware_scan }}<br><span class="loader"></span></p></div>{% endif %}
             <div class="info" id="fileInfo"></div>
         </form>
-        <p class="note">{{lang.wybierz_plik}}</p>
+        <p class="note">{{ lang.wybierz_plik }}</p>
         <br>
         <ul id="features">
-            <li class="mb">10 MB</li>
+            <li class="mb">{{ config.max_filesize // 1024 // 1024 }} MB</li>
             <li class="png">PNG</li>
             <li class="jpeg">JPEG</li>
             <li class="gif">GIF</li>

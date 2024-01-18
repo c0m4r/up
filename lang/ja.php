@@ -20,7 +20,8 @@ $lang = array
 	"polityka_prywatnosci"			=> "プライバシーポリシー",
 	"polityka_prywatnosci_tekst"            => "安全のためにあなたの IP とアップロード時間を記録します。",
 	"kontakt"				=> "接触",
-	"kontakt_tekst"                         => "あちこちにお問い合わせください。"
+	"kontakt_tekst"                         => "あちこちにお問い合わせください。",
+        "malware_scan"                          => "マルウェアのスキャン"
 );
 
 ?>

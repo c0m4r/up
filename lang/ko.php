@@ -20,7 +20,8 @@ $lang = array
 	"polityka_prywatnosci"			=> "개인 정보 정책",
 	"polityka_prywatnosci_tekst"            => "안전을 위해 귀하의 IP와 업로드 시간을 기록해 드립니다.",
 	"kontakt"				=> "연락하다",
-	"kontakt_tekst"                         => "여기저기서 연락주세요."
+	"kontakt_tekst"                         => "여기저기서 연락주세요.",
+        "malware_scan"                          => "멀웨어 검사 중..."
 );
 
 ?>
