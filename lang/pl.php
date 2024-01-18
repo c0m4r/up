@@ -16,12 +16,12 @@ $lang = array
 	"obiekt_nie_jest_graficzny" 		=> "Obiekt nie jest plikiem graficznym.",
 	"najpierw_wybierz_plik" 		=> "Najpierw wybierz plik.",
         "regulamin"                             => "Regulamin",
-        "regulamin_tekst"                       => "Don't be evil.",
+        "regulamin_tekst"                       => "Nie czyń drugiemu co Tobie nie miłe",
         "polityka_prywatnosci"                  => "Polityka prywatności",
         "polityka_prywatnosci_tekst"            => "Ze względów bezpieczeństwa logujemy Twój adres IP oraz czas wgrania pliku.",
         "kontakt"                               => "Kontakt",
         "kontakt_tekst"                         => "Możesz się z nami skontaktować albo nie.",
-        "malware_scan"                          => "Scanning for malware..."
+        "malware_scan"                          => "Skanowanie pliku..."
 );
 
 ?>
