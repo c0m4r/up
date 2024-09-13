@@ -49,8 +49,8 @@ Uploaded image is verified and re-created from its contents to provide some laye
 ```
 git clone https://github.com/c0m4r/up.git
 cd up
-wget https://getcomposer.org/download/2.6.6/composer.phar
-echo "72600201c73c7c4b218f1c0511b36d8537963e36aafa244757f52309f885b314 composer.phar" | sha256sum -c || rm composer.phar
+wget https://getcomposer.org/download/2.7.9/composer.phar
+echo "b6de5e65c199d80ba11897fbe1364e063e858d483f6a81a176c4d60f2b1d6347 composer.phar" | sha256sum -c || rm composer.phar
 php composer.phar update
 ```
 
@@ -61,8 +61,8 @@ This setup is based on [joseluisq/alpine-php-fpm](https://github.com/joseluisq/a
 ```bash
 git clone https://github.com/c0m4r/up.git
 cd up
-wget https://getcomposer.org/download/2.6.6/composer.phar
-echo "72600201c73c7c4b218f1c0511b36d8537963e36aafa244757f52309f885b314 composer.phar" | sha256sum -c || rm composer.phar
+wget https://getcomposer.org/download/2.7.9/composer.phar
+echo "b6de5e65c199d80ba11897fbe1364e063e858d483f6a81a176c4d60f2b1d6347 composer.phar" | sha256sum -c || rm composer.phar
 docker compose up -d
 docker compose exec php-fpm /bin/sh -c "cd /usr/share/nginx/html && php composer.phar update"
 chown -R 82:82 i logs
