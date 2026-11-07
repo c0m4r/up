@@ -1,0 +1,18 @@
+# Allowlist: only files the images need are sent to the build context,
+# so .git, local vendor/, uploads, logs or stray secrets never leak in.
+*
+!.docker/nginx/
+!.docker/php/
+!*.php
+!composer.json
+!composer.lock
+!css/
+!favicon.ico
+!img/
+!js/
+!lang/
+!manifest.json
+!phpstan.dist.neon
+!robots.txt
+!src/
+!tpl/

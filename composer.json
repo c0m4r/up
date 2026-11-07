@@ -5,15 +5,59 @@
     "homepage": "https://github.com/c0m4r/up",
     "license": "MIT",
     "require": {
-        "twig/twig": "^3.8",
-        "components/jquery": "^3.7",
-        "coldume/imagecraft": "^1.0",
+        "php": "^8.5.12",
         "ext-ctype": "*",
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-gd": "*",
-        "ext-iconv": "*",
         "ext-mbstring": "*",
-        "ext-openssl": "*"
-    }
+        "components/jquery": "^4.0",
+        "twig/twig": "^3.30"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.3",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0"
+    },
+    "suggest": {
+        "ext-sockets": "Required by the experimental paranoya malware scanner integration"
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-mbstring": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Up\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": false,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.5.12"
+        },
+        "policy": {
+            "advisories": {
+                "block": true,
+                "audit": "fail"
+            },
+            "malware": {
+                "block": true,
+                "block-scope": "all",
+                "audit": "fail"
+            },
+            "abandoned": {
+                "block": true,
+                "audit": "fail"
+            },
+            "cooldown": {
+                "period": "7 days"
+            }
+        },
+        "secure-http": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

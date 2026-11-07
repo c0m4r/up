@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, so advisories published against the locked dependencies surface
+    - cron: '23 10 * * 1'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php:
+    name: PHP 8.5 (validate, audit, lint, PHPStan)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Same digest-pinned PHP 8.5.12 image as production, plus dev dependencies
+      - name: Build CI image
+        run: docker build --target dev --tag up:dev .
+
+      - name: Validate composer.json and composer.lock
+        run: docker run --rm up:dev composer validate --strict
+
+      - name: Audit dependencies (advisories, malware, abandoned)
+        run: docker run --rm up:dev composer audit --locked
+
+      - name: Lint
+        run: docker run --rm up:dev sh -c 'find . -name "*.php" -not -path "./vendor/*" -print0 | xargs -0 -n1 php -l'
+
+      - name: PHPStan
+        run: docker run --rm up:dev vendor/bin/phpstan analyse --no-progress --error-format=github
+
+  docker:
+    name: Docker build and smoke test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Dockerfile checks
+        run: docker build --check .
+
+      - name: Start the stack
+        run: docker compose up --detach --build --wait --wait-timeout 120
+
+      - name: Upload and fetch images
+        run: |
+          set -euo pipefail
+          curl -fsS -H 'Host: localhost' http://localhost:8080/ > /dev/null
+          for file in img/up-icon-48.png tests/fixtures/animated.gif; do
+            response=$(curl -fsS -H 'Host: localhost' -F "up=@$file" http://localhost:8080/upload.php)
+            echo "$file: $response"
+            url=$(jq -er '.msg' <<< "$response")
+            curl -fsS -o /dev/null -H 'Host: localhost' "http://localhost:8080/i/${url##*/}"
+          done
+          [[ $url == *.ani.gif ]]
+
+      - name: Show logs
+        if: failure()
+        run: docker compose logs
+
+  zizmor:
+    name: Workflow security (zizmor)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@53290badfa369cb0bf7ad16342cb62c2fa47ac7b # v0.8.0
+        with:
+          version: 1.31.1
+          advanced-security: false
+          persona: pedantic
+
+  dependency-review:
+    name: Dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: low

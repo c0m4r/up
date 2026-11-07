@@ -70,7 +70,7 @@ function uploadComplete(evt)
 	
 	if(callback[0] == "{")
 	{
-		var callback = jQuery.parseJSON(callback);
+		var callback = JSON.parse(callback);
 		
 		if(callback.error)
 		{
@@ -92,8 +92,8 @@ function uploadComplete(evt)
 
 			if(window.innerWidth >= 600)
 			{
-			    $("input[type=text]").select();
-			    $(".result").select();
+			    $("input[type=text]").trigger("select");
+			    $(".result").trigger("select");
 			}
 
 			$(".image a").remove();
@@ -137,31 +137,31 @@ function escapeHtml(text) {
 
 if(window.innerWidth >= 600)
 {
-    $(".result").focus(function()
+    $(".result").on("focus", function()
     {
 	    $(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = URL");
     });
 
-    $(".result_html").focus(function()
+    $(".result_html").on("focus", function()
     {
 	    $(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = HTML");
     });
 
-    $(".result_forum").focus(function()
+    $(".result_forum").on("focus", function()
     {
 	    $(".ctrl").html("<kbd class=\"light\">CTRL</kbd> + <kbd class=\"light\">C</kbd> = FORUM");
     });
 
-    $("input[type=text]").click(function() {
+    $("input[type=text]").on("click", function() {
         this.select();
     });
 }
 
-$(".flyhigh").change(function() {
+$(".flyhigh").on("change", function() {
     return fileSelected();
 });
 
-$("#ts-a").click(function() { $('.rules p').hide(); $('#ts').slideToggle(); return false; });
-$("#pp-a").click(function() { $('.rules p').hide(); $('#pp').slideToggle(); return false; });
-$("#ct-a").click(function() { $('.rules p').hide(); $('#ct').slideToggle(); return false; });
-$('.rules p').click(function() { $(this).slideToggle(); return false; });
+$("#ts-a").on("click", function() { $('.rules p').hide(); $('#ts').slideToggle(); return false; });
+$("#pp-a").on("click", function() { $('.rules p').hide(); $('#pp').slideToggle(); return false; });
+$("#ct-a").on("click", function() { $('.rules p').hide(); $('#ct').slideToggle(); return false; });
+$('.rules p').on("click", function() { $(this).slideToggle(); return false; });
