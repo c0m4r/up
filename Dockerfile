@@ -4,7 +4,7 @@
 # upstream image is never pulled silently. Dependabot bumps both together.
 FROM composer:2.11.1@sha256:8de2184c6de224f4689e8f80ed5f5edaf0030b6b8b7839a22a2bcb6722ac87d0 AS composer
 
-FROM php:8.5.12-fpm-alpine3.24@sha256:64535609509e0fd5c8529359e6b599a68ce42089defd565f7881efdae7687cea AS php
+FROM php:8.5.12-fpm-alpine3.24@sha256:951fb5b1780219b81d5daffa4cebef8e0077c537f3893d9790a5dfcd66ca334d AS php
 RUN set -eux; \
     apk add --no-cache libjpeg-turbo libpng libwebp; \
     apk add --no-cache --virtual .build-deps libjpeg-turbo-dev libpng-dev libwebp-dev linux-headers; \
