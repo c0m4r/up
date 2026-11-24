@@ -44,7 +44,7 @@ RUN install -d -o www-data -g www-data -m 0755 i logs \
 USER www-data
 
 # nginx image serving the static assets and proxying PHP requests to the app
-FROM nginx:1.31.8-alpine3.24@sha256:713fc2ebfd92e8217db451477182ee91944b123d2b1ee9fd5a8c6e91ca6c3a11 AS web
+FROM nginx:1.31.8-alpine3.24@sha256:fed7e14be83cbd2661a75cdc5b872d936cf155d46c327084d30b8df19ae88d72 AS web
 COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY .docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 WORKDIR /usr/share/nginx/html
